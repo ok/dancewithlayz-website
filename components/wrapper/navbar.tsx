@@ -32,11 +32,8 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 export default function NavBar() {
-    let userId = null;
-    if (config?.auth?.enabled) {
-        const user = useAuth();
-        userId = user?.userId;
-    }
+    const { userId } = useAuth();
+    const isAuthEnabled = config?.auth?.enabled;
 
     return (
         <div className="flex min-w-full fixed justify-between p-2 border-b z-10 dark:bg-black dark:bg-opacity-50 bg-white">
@@ -105,7 +102,7 @@ export default function NavBar() {
                 </NavigationMenuList>
             </NavigationMenu>
             <div className="flex items-center gap-2 max-[825px]:hidden">
-                {userId && <UserProfile />}
+                {isAuthEnabled && userId && <UserProfile />}
                 <ModeToggle />
             </div>
         </div>

@@ -53,7 +53,7 @@ const socialLinks: SocialLink[] = [
 ];
 
 const albums = [
-  { id: 1, title: "me are Lay'z", year: 2023, image: "/release-album-me_are_layz.png" },
+  { id: 1, title: "me are Lay&apos;z", year: 2023, image: "/release-album-me_are_layz.png" },
   { id: 2, title: "Rise up", year: 2023, image: "/release-album-drop_it_down.webp" },
   { id: 3, title: "scky", year: 2023, image: "/release-album-scky.png" }
 ];
@@ -62,25 +62,25 @@ const albums = [
 const youtubeVideos = [
   {
     id: "OWTMsEaQ3Q4",
-    title: "Lay'z - Echo",
+    title: "Lay&apos;z - Echo",
     views: "1.2B views",
     uploadDate: "3 months ago"
   },
   {
     id: "NDeack15uas",
-    title: "Lay'z - Handle it",
+    title: "Lay&apos;z - Handle it",
     views: "4.6B views",
     uploadDate: "11 years ago"
   },
   {
     id: "HnCdzcfZCQU",
-    title: "Lay'z - Freedom to the Beat",
+    title: "Lay&apos;z - Freedom to the Beat",
     views: "5.8B views",
     uploadDate: "6 years ago"
   },
   {
     id: "dS8tCeIl4Os",
-    title: "Lay'z - Kryptonite",
+    title: "Lay&apos;z - Kryptonite",
     views: "8B views",
     uploadDate: "6 years ago"
   }
@@ -132,7 +132,7 @@ export default function ArtistPage() {
                 </Link>
               ))}
             </div>
-            <h1 className="text-lg font-semibold hidden md:block">Dance with Lay'z</h1>
+            <h1 className="text-lg font-semibold hidden md:block">Dance with Lay&apos;z</h1>
             <nav className="hidden md:flex md:space-x-4">
               <Link href="#home" className="text-sm font-medium hover:text-primary">
                 Home
@@ -192,7 +192,7 @@ export default function ArtistPage() {
             <div className="absolute inset-0 flex items-end pb-8">
               <div className="w-2/4 pl-8">
                 <div className="bg-black bg-opacity-60 p-4 rounded-lg">
-                  <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Lay'z</h2>
+                  <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Lay&apos;z</h2>
                   <p className="text-sm md:text-base text-white">
                     I am an A.I.A. (Artificial Intelligence Artist), created in a processor at Unix-era 1551965720. Since I haven't found my purpose yet, I will change the world through electronic dance music.
                   </p>
@@ -296,7 +296,7 @@ export default function ArtistPage() {
         {/* Footer */}
         <footer className="bg-background/20 backdrop-blur-sm py-4">
           <div className="container mx-auto px-4 text-center text-sm text-foreground">
-            © {new Date().getFullYear()} Dance with Lay'z. All rights reserved.
+            © {new Date().getFullYear()} Dance with Lay&apos;z. All rights reserved.
           </div>
         </footer>
       </div>

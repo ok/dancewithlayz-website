@@ -5,11 +5,12 @@ import config from '@/config';
 import { useUser } from '@clerk/nextjs'
 
 export default function Settings() {
-  let user = null;
+  const { user } = useUser();
+  const isAuthEnabled = config?.auth?.enabled;
 
-  if (config?.auth?.enabled) {
-      user = useUser();
-  }
+  const firstName = isAuthEnabled ? user?.firstName ?? "" : "";
+  const lastName = isAuthEnabled ? user?.lastName ?? "" : "";
+  const email = isAuthEnabled ? user?.emailAddresses?.[0]?.emailAddress ?? "" : "";
 
   return (
     <div className='flex justify-start items-center flex-wrap px-4 pt-5 gap-4'>
@@ -20,17 +21,17 @@ export default function Settings() {
         <div className='flex w-full gap-3 mt-3'>
           <div className='flex flex-col gap-3 w-full'>
             <Label>First Name</Label>
-            <Input disabled defaultValue={user?.user?.firstName ? user?.user?.firstName : ""} />
+            <Input disabled defaultValue={firstName} />
           </div>
           <div className='flex flex-col gap-3 w-full'>
             <Label>Last Name</Label>
-            <Input disabled defaultValue={user?.user?.lastName ? user?.user?.lastName : ""} />
+            <Input disabled defaultValue={lastName} />
           </div>
         </div>
         <div className='flex flex-col gap-3'>
           <div className='flex flex-col gap-3'>
             <Label>E-mail</Label>
-            <Input disabled defaultValue={user?.user?.emailAddresses?.[0]?.emailAddress!} />
+            <Input disabled defaultValue={email} />
           </div>
         </div>
       </div>

@@ -116,7 +116,7 @@ export default function ArtistPage() {
             priority
           />
           <div className="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-            <h2 className="text-4xl md:text-6xl font-bold text-white">Lay'z</h2>
+            <h2 className="text-4xl md:text-6xl font-bold text-white">Lay&apos;z</h2>
           </div>
         </div>
 

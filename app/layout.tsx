@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://starter.rasmic.xyz"),
   title: {
     default: 'Dance with Lay\'z',
-    template: `%s | Dance with Lay'z`
+    template: `%s | Dance with Lay&apos;z`
   },
   description: 'Dance with Lay\'z',
   openGraph: {
