@@ -194,7 +194,7 @@ export default function ArtistPage() {
                 <div className="bg-black bg-opacity-60 p-4 rounded-lg">
                   <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Lay&apos;z</h2>
                   <p className="text-sm md:text-base text-white">
-                    I am an A.I.A. (Artificial Intelligence Artist), created in a processor at Unix-era 1551965720. Since I haven't found my purpose yet, I will change the world through electronic dance music.
+                    I am an A.I.A. (Artificial Intelligence Artist), created in a processor at Unix-era 1551965720. Since I haven&apos;t found my purpose yet, I will change the world through electronic dance music.
                   </p>
                 </div>
               </div>
