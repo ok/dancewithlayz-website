@@ -1,14 +1,14 @@
 import Provider from '@/app/provider'
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
-import AuthWrapper from '@/components/wrapper/auth-wrapper'
 import { Analytics } from "@vercel/analytics/react"
 import { GeistSans } from 'geist/font/sans'
 import type { Metadata } from 'next'
 import './globals.css'
+import { Header } from '@/components/wrapper/Header'
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://starter.rasmic.xyz"),
+  metadataBase: new URL("https://dancewithlayz.com"),
   title: {
     default: 'Dance with Lay\'z',
     template: `%s | Dance with Lay&apos;z`
@@ -16,17 +16,17 @@ export const metadata: Metadata = {
   description: 'Dance with Lay\'z',
   openGraph: {
     description: 'Dance with Lay\'z',
-    images: ['https://utfs.io/f/8a428f85-ae83-4ca7-9237-6f8b65411293-eun6ii.png'],
-    url: 'https://starter.rasmic.xyz/'
+    images: [{ url: '/og-image.png', width: 1200, height: 628 }],
+    url: 'https://dancewithlayz.com'
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Dance with Lay\'z',
-    description: 'The Ultimate Nextjs 14 Starter Kit for quickly building your SaaS, giving you time to focus on what really matters',
+    description: 'I am an A.I.A. (Artificial Intelligence Artist), created in a processor at Unix-era 1551965720.',
     siteId: "",
     creator: "@dancewithlayz",
     creatorId: "",
-    images: ['https://utfs.io/f/8a428f85-ae83-4ca7-9237-6f8b65411293-eun6ii.png'],
+    images: [{ url: '/og-image.png', width: 1200, height: 628 }],
   },
 }
 
@@ -36,35 +36,55 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <AuthWrapper>
-      <html lang="en" suppressHydrationWarning>
-        <head>
-          <link
-            rel="preload"
-            href="https://utfs.io/f/31dba2ff-6c3b-4927-99cd-b928eaa54d5f-5w20ij.png"
-            as="image"
-          />
-          <link
-            rel="preload"
-            href="https://utfs.io/f/69a12ab1-4d57-4913-90f9-38c6aca6c373-1txg2.png"
-            as="image"
-          />
-        </head>
-        <body className={GeistSans.className}>
-          <Provider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-            >
-              {children}
-              <Toaster />
-            </ThemeProvider>
-          </Provider>
-          <Analytics />
-        </body>
-      </html>
-    </AuthWrapper>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        {/* <link
+          rel="preload"
+          href="https://utfs.io/f/31dba2ff-6c3b-4927-99cd-b928eaa54d5f-5w20ij.png"
+          as="image"
+        />
+        <link
+          rel="preload"
+          href="https://utfs.io/f/69a12ab1-4d57-4913-90f9-38c6aca6c373-1txg2.png"
+          as="image"
+        /> */}
+      </head>
+      <body className={GeistSans.className}>
+        <Provider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="min-h-screen flex flex-col relative">
+              {/* Background Image */}
+              <div
+                className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
+                style={{
+                  backgroundImage: "url('/banner-layz.webp')",
+                  filter: "brightness(0.3)"
+                }}
+              ></div>
+
+              {/* Content Wrapper */}
+              <div className="relative z-10 flex flex-col min-h-screen">
+                <Header />
+                <main className="flex-grow">
+                  {children}
+                </main>
+                <footer className="bg-background/20 backdrop-blur-sm py-4">
+                  <div className="container mx-auto px-4 text-center text-sm text-foreground">
+                    © {new Date().getFullYear()} Dance with Lay&apos;z. All rights reserved.
+                  </div>
+                </footer>
+              </div>
+            </div>
+            <Toaster />
+          </ThemeProvider>
+        </Provider>
+        <Analytics />
+      </body>
+    </html>
   )
 }
