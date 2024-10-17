@@ -1,87 +1,62 @@
-# Getting Started
+## Next.js 14 Starter Kit
 
-## Prerequisites
-- Node.js and yarn/bun installed
-- Accounts and API keys for:
-  - Supabase
-  - Stripe (if using payments)
-  - Clerk (if using authentication)
+This comprehensive Next.js 14 starter kit provides a robust foundation for rapidly building and deploying your SaaS application. It empowers you to concentrate on your core business logic while leveraging industry-leading technologies.
 
-## Setup
+### Inputs
 
-1. Clone the repository:
-   ```
-   git clone <repository-url>
-   cd <project-directory>
-   ```
+- **Environment Variables:**
+  - `SUPABASE_URL`: URL of your Supabase project
+  - `SUPABASE_SERVICE_KEY`: Service key for your Supabase project
+  - `STRIPE_SECRET_KEY`: Secret key for your Stripe account (if using payments)
+  - `NEXT_PUBLIC_STRIPE_PRICE_ID`: Stripe price ID for your subscription plan (if using payments)
+  - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`: Publishable key for your Clerk account (if using authentication)
+  - `CLERK_SECRET_KEY`: Secret key for your Clerk account (if using authentication)
+  - `NEXT_PUBLIC_CLERK_SIGN_IN_URL`, `NEXT_PUBLIC_CLERK_SIGN_UP_URL`, `NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL`, `NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL`: URLs for Clerk authentication flow (if using authentication)
+- **Configuration (`config.ts`):**
+  - `auth.enabled`: Enable or disable Clerk authentication
+  - `payments.enabled`: Enable or disable Stripe payments
 
-2. Install dependencies:
-   ```
-   yarn
-   ```
+### Outputs
 
-3. Set up environment variables:
-   Create a `.env` file in the root directory with the following variables:
-   ```
-   SUPABASE_URL=<your-supabase-project-url>
-   SUPABASE_SERVICE_KEY=<your-supabase-service-key>
+- **Fully functional Next.js 14 application** with:
+  - Pre-configured authentication (Clerk)
+  - Integrated payments (Stripe)
+  - Tailwind CSS for styling
+  - Shadcn UI for pre-built components
+  - Tanstack Query for data fetching and caching
+  - Upstash (Redis) for rate-limiting
+  - Prisma ORM for database interactions
+  - Supabase for database and authentication
+- **Landing Page:** Includes a visually appealing hero section, featured song/album/video sections, and sample blog cards.
+- **Dashboard:** (Located at `/dashboard`) Provides a user interface for managing your application's data and functionality.
+- **Documentation:** This README.md file outlines the setup process, configuration options, and additional resources.
 
-   # If using Stripe
-   STRIPE_SECRET_KEY=<your-stripe-secret-key>
-   NEXT_PUBLIC_STRIPE_PRICE_ID=<your-stripe-price-id>
+### How to Use
 
-   # If using Clerk
-   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=<your-clerk-publishable-key>
-   CLERK_SECRET_KEY=<your-clerk-secret-key>
-   NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
-   NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
-   NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
-   NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
-   ```
+1. **Clone the repository:** `git clone <repository-url> && cd <project-directory>`
+2. **Install dependencies:** `yarn`
+3. **Set up environment variables:** Create a `.env` file in the root directory with the required variables (see Inputs).
+4. **Configure features:** Modify `config.ts` to enable or disable authentication and payments.
+5. **Set up the database:** Run Prisma migrations: `npx prisma migrate dev`
+6. **Start the development server:** `yarn dev`
+7. **Access your application:** Open `http://localhost:3000` in your browser.
 
-4. Configure features:
-   In `config.ts`, set the desired features:
-   ```typescript
-   const config = {
-     auth: {
-       enabled: true, // Set to false if not using Clerk
-     },
-     payments: {
-       enabled: true, // Set to false if not using Stripe
-     }
-   };
-   ```
+### Additional Configuration
 
-5. Set up the database:
-   Run Prisma migrations:
-   ```
-   npx prisma migrate dev
-   ```
+- **Webhooks:** Configure webhooks for Clerk (authentication) at `/api/auth/webhook` and Stripe (payments) at `/api/payments/webhook`.
+- **Customization:** Tailor the landing page, dashboard, and other components to meet your specific requirements.
+- **Database:** Adjust the Prisma schema in `prisma/schema.prisma` to modify the database structure.
 
-6. Start the development server:
-   ```
-   yarn dev
-   ```
+### Security Notes
 
-7. Open your browser and navigate to `http://localhost:3000` to see your application running.
+- **Row Level Security (RLS):** Implement RLS in your Supabase project to protect data at the database level.
+- **Server-side Supabase Calls:** Perform Supabase calls within API routes or server components to safeguard your service key.
 
-## Additional Configuration
+### Further Learning
 
-- Webhooks: Set up webhooks for Clerk (if using auth) at `/api/auth/webhook` and for Stripe (if using payments) at `/api/payments/webhook`.
-- Customize the landing page, dashboard, and other components as needed.
-- Modify the Prisma schema in `prisma/schema.prisma` if you need to change the database structure.
-
-## Important Security Notes
-
-- Enable Row Level Security (RLS) in your Supabase project to ensure data protection at the database level.
-- Always make Supabase calls on the server-side (in API routes or server components) to keep your service key secure.
-
-## Learn More
-
-Refer to the documentation of the individual technologies used in this project for more detailed information:
-- [Next.js Documentation](https://nextjs.org/docs)
-- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [Supabase Documentation](https://supabase.io/docs)
-- [Prisma Documentation](https://www.prisma.io/docs)
-- [Clerk Documentation](https://clerk.dev/docs) (if using auth)
-- [Stripe Documentation](https://stripe.com/docs) (if using payments)
+- **Next.js Documentation:** https://nextjs.org/docs
+- **Tailwind CSS Documentation:** https://tailwindcss.com/docs
+- **Supabase Documentation:** https://supabase.io/docs
+- **Prisma Documentation:** https://www.prisma.io/docs
+- **Clerk Documentation:** https://clerk.dev/docs (if using authentication)
+- **Stripe Documentation:** https://stripe.com/docs (if using payments)
