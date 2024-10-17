@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   description: 'Dance with Lay\'z',
   openGraph: {
     description: 'Dance with Lay\'z',
-    images: [{ url: '/og-image.png', width: 1200, height: 628 }],
+    images: [{ url: '/banner-layz.webp', width: 1200, height: 628 }],
     url: 'https://dancewithlayz.com'
   },
   twitter: {
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     siteId: "",
     creator: "@dancewithlayz",
     creatorId: "",
-    images: [{ url: '/og-image.png', width: 1200, height: 628 }],
+    images: [{ url: '/banner-layz.webp', width: 1200, height: 628 }],
   },
 }
 
@@ -51,37 +51,30 @@ export default function RootLayout({
       </head>
       <body className={GeistSans.className}>
         <Provider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <div className="min-h-screen flex flex-col relative">
-              {/* Background Image */}
-              <div
-                className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
-                style={{
-                  backgroundImage: "url('/banner-layz.webp')",
-                  filter: "brightness(0.3)"
-                }}
-              ></div>
+          <div className="min-h-screen flex flex-col relative">
+            {/* Background Image */}
+            <div
+              className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
+              style={{
+                backgroundImage: "url('/banner-layz.webp')",
+                filter: "brightness(0.3)"
+              }}
+            ></div>
 
-              {/* Content Wrapper */}
-              <div className="relative z-10 flex flex-col min-h-screen">
-                <Header />
-                <main className="flex-grow">
-                  {children}
-                </main>
-                <footer className="bg-background/20 backdrop-blur-sm py-4">
-                  <div className="container mx-auto px-4 text-center text-sm text-foreground">
-                    © {new Date().getFullYear()} Dance with Lay&apos;z. All rights reserved.
-                  </div>
-                </footer>
-              </div>
+            {/* Content Wrapper */}
+            <div className="relative z-10 flex flex-col min-h-screen">
+              <Header />
+              <main className="flex-grow">
+                {children}
+              </main>
+              <footer className="bg-background/20 backdrop-blur-sm py-4">
+                <div className="container mx-auto px-4 text-center text-sm text-foreground">
+                  © {new Date().getFullYear()} Dance with Lay&apos;z. All rights reserved.
+                </div>
+              </footer>
             </div>
-            <Toaster />
-          </ThemeProvider>
+          </div>
+          <Toaster />
         </Provider>
         <Analytics />
       </body>
