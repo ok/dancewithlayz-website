@@ -1,18 +1,10 @@
 "use client"
 
 import Image from "next/image"
-import Link from "next/link"
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-import { Menu, Play } from "lucide-react"
+import { Play } from "lucide-react"
 
 const albums = [
   { id: 1, title: "me are Lay\'z", year: 2023, image: "/release-album-me_are_layz.webp" },
