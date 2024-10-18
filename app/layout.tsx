@@ -1,7 +1,5 @@
 import Provider from '@/app/provider'
-import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
-import { Analytics } from "@vercel/analytics/react"
 import { GeistSans } from 'geist/font/sans'
 import type { Metadata } from 'next'
 import './globals.css'
@@ -76,7 +74,6 @@ export default function RootLayout({
           </div>
           <Toaster />
         </Provider>
-        <Analytics />
       </body>
     </html>
   )

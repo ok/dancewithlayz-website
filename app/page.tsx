@@ -15,9 +15,9 @@ import {
 import { Menu, Play } from "lucide-react"
 
 const albums = [
-  { id: 1, title: "me are Lay\'z", year: 2023, image: "/release-album-me_are_layz.png" },
+  { id: 1, title: "me are Lay\'z", year: 2023, image: "/release-album-me_are_layz.webp" },
   { id: 2, title: "Rise up", year: 2023, image: "/release-album-drop_it_down.webp" },
-  { id: 3, title: "scky", year: 2023, image: "/release-album-scky.png" }
+  { id: 3, title: "scky", year: 2023, image: "/release-album-scky.webp" }
 ];
 
 // Define an array of YouTube video configurations
@@ -59,7 +59,7 @@ type Song = {
 // Create a configuration array for featured songs
 const featuredSongs: Song[] = [
   { id: 1, title: "Handle it", album: "Rise up", image: "/release-handle_it.webp" },
-  { id: 2, title: "Echo", album: "me are Lay\'z", image: "/release-album-me_are_layz.png" },
+  { id: 2, title: "Echo", album: "me are Lay\'z", image: "/release-album-me_are_layz.webp" },
   { id: 3, title: "770°", album: "n/a", image: "/release-770.webp" },
 ];
 
