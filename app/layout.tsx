@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/sonner"
 import { GeistSans } from 'geist/font/sans'
 import type { Metadata } from 'next'
 import './globals.css'
-import { Header } from '@/components/wrapper/header'
+import { Header } from '@/components/wrapper/head'
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://dancewithlayz.com"),
