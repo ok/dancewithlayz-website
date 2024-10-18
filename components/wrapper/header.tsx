@@ -64,8 +64,8 @@ export function Header() {
         <div className="flex items-center md:space-x-4">
           {socialLinks.map((link) => (
             <Link key={link.name} href={link.url} passHref target="_blank">
-              <Button className="p-2 bg-transparent hover:bg-transparent" size="icon">
-                <link.icon {...link.iconProps} />
+              <Button className="p-2 bg-transparent hover:bg-transparent group" size="icon">
+                <link.icon {...link.iconProps}  className={`${link.iconProps?.className} group-hover:fill-gray-400`}/>
                 <span className="sr-only">{link.name}</span>
               </Button>
             </Link>

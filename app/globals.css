@@ -70,11 +70,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-/* Force social media icons to be white */
-.social-icon {
-  color: white !important;
-}
-.fill-white {
-  fill: white !important;
-}
