@@ -64,7 +64,7 @@ export function Header() {
         <div className="flex items-center md:space-x-4">
           {socialLinks.map((link) => (
             <Link key={link.name} href={link.url} passHref target="_blank">
-              <Button variant="link" size="icon">
+              <Button className="p-2 bg-transparent hover:bg-transparent" size="icon">
                 <link.icon {...link.iconProps} />
                 <span className="sr-only">{link.name}</span>
               </Button>
@@ -73,23 +73,23 @@ export function Header() {
         </div>
         <h1 className="text-lg font-semibold hidden md:block">Dance with Lay&apos;z</h1>
         <nav className="hidden md:flex md:space-x-4">
-          <Link href="/" className="text-sm font-medium hover:text-primary">
+          <Link href="/" className="text-sm font-medium hover:text-gray-400">
             Home
           </Link>
-          <Link href="/#songs" className="text-sm font-medium hover:text-primary">
+          <Link href="/#songs" className="text-sm font-medium hover:text-gray-400">
             Songs
           </Link>
-          <Link href="/#albums" className="text-sm font-medium hover:text-primary">
+          <Link href="/#albums" className="text-sm font-medium hover:text-gray-400">
             Albums
           </Link>
-          <Link href="/#videos" className="text-sm font-medium hover:text-primary">
+          <Link href="/#videos" className="text-sm font-medium hover:text-gray-400">
             Videos
           </Link>
         </nav>
         <div className="md:hidden">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-              <Button variant="link" size="icon">
+              <Button className="p-2 hover:bg-gray-700 rounded-full transition-colors" size="icon">
                 <Menu className="h-6 w-6 stroke-white" />
                 <span className="sr-only">Open menu</span>
               </Button>
