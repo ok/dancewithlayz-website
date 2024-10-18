@@ -96,7 +96,7 @@ export function Header() {
             </SheetTrigger>
             <SheetContent className="bg-gray-900/40 backdrop-blur-md text-white">
               <SheetHeader>
-                <SheetTitle className="text-white">Menu</SheetTitle>
+                <SheetTitle className="text-white">Dance with Lay&apos;z</SheetTitle>
               </SheetHeader>
               <div className="mt-4 space-y-4">
                 <Link href="/" onClick={() => setIsOpen(false)} className="block text-lg text-white hover:text-gray-300">

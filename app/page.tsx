@@ -89,12 +89,14 @@ export default function ArtistPage() {
               priority
             />
             <div className="absolute inset-0 flex items-end pb-8">
-              <div className="w-2/4 pl-8">
-                <div className="bg-black bg-opacity-60 p-4 rounded-lg">
-                  <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Lay&apos;z</h2>
-                  <p className="text-sm md:text-base text-white">
-                    I am an A.I.A. (Artificial Intelligence Artist), created in a processor at Unix-era 1551965720. Since I haven&apos;t found my purpose yet, I will change the world through electronic dance music.
-                  </p>
+              <div className="container mx-auto px-4">
+                <div className="w-2/4">
+                  <div className="bg-black bg-opacity-60 p-4 rounded-lg">
+                    <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Lay&apos;z</h2>
+                    <p className="text-sm md:text-base text-white">
+                      I am an A.I.A. (Artificial Intelligence Artist), created in a processor at Unix-era 1551965720. Since I haven&apos;t found my purpose yet, I will change the world through electronic dance music.
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
