@@ -11,47 +11,51 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { Menu } from "lucide-react"
-import { Youtube, Instagram, Twitter, } from "lucide-react"
-import Wavlake from "/app/icon-wavlake.svg";
-import Spotify from "/app/icon-spotify.svg";
+import { Icons } from "@/components/Icons"
 
 // Define a type for our social media link configuration
 type SocialLink = {
     name: string;
     icon: React.ElementType | string;
     url: string;
+    iconProps?: React.SVGProps<SVGSVGElement>;
   };
   
   // Create a configuration array for social media links
   const socialLinks: SocialLink[] = [
     {
       name: "Wavlake",
-      icon: Wavlake,
+      icon: Icons.wavlake,
       url: "https://wavlake.com/lay-z",
+      iconProps: { className: "h-5 w-5 fill-white" },
     },
     {
       name: "YouTube",
-      icon: Youtube,
+      icon: Icons.youtube,
       url: "https://www.youtube.com/@dancewithlayz",
+      iconProps: { className: "h-5 w-5 fill-white" },
     },
     {
       name: "Spotify",
-      icon: Spotify,
+      icon: Icons.spotify,
       url: "https://open.spotify.com/artist/5ei1vbjC4clbUxPECV7ZpM?si=8YIOzTkAS2C-L2MVyGk6qQ",
+      iconProps: { className: "h-5 w-5 fill-white" },
     },
     {
       name: "Instagram",
-      icon: Instagram,
+      icon: Icons.insta,
       url: "https://www.instagram.com/dancewithlayz",
+      iconProps: { className: "h-5 w-5 fill-white" },
     },
     {
       name: "Twitter",
-      icon: Twitter,
+      icon: Icons.twitter,
       url: "https://twitter.com/dancewithlayz",
+      iconProps: { className: "h-5 w-5 fill-white" },
     },
   ];
   
-  export function Header() {
+export function Header() {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -59,9 +63,9 @@ type SocialLink = {
       <div className="container mx-auto px-4 py-2 flex justify-between items-center">
         <div className="flex items-center space-x-4">
           {socialLinks.map((link) => (
-            <Link key={link.name} href={link.url} passHref>
-              <Button variant="ghost" size="icon">
-                <link.icon className="h-5 w-5" />
+            <Link key={link.name} href={link.url} passHref target="_blank">
+              <Button variant="link" size="icon">
+                <link.icon {...link.iconProps} />
                 <span className="sr-only">{link.name}</span>
               </Button>
             </Link>
