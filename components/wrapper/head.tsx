@@ -89,7 +89,7 @@ export function Header() {
         <div className="md:hidden">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-              <Button className="p-2 hover:bg-gray-700 rounded-full transition-colors" size="icon">
+              <Button className="p-2 bg-transparent hover:bg-transparent" size="icon">
                 <Menu className="h-6 w-6 stroke-white" />
                 <span className="sr-only">Open menu</span>
               </Button>
