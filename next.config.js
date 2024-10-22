@@ -11,23 +11,9 @@ const nextConfig = {
       // Keep your existing patterns here
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'seo-heist.s3.amazonaws.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'avatars.githubusercontent.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'ansubkhan.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'utfs.io',
+        hostname: 'd12wklypp119aj.cloudfront.net',
+        port: '',
+        pathname: '/image/**',
       },
     ],
   },

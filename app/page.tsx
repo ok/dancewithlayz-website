@@ -42,7 +42,7 @@ const youtubeVideos = [
 
 // Define a type for our song configuration
 type Song = {
-  id: number;
+  id: string;
   title: string;
   album: string;
   image: string;
@@ -50,9 +50,9 @@ type Song = {
 
 // Create a configuration array for featured songs
 const featuredSongs: Song[] = [
-  { id: 1, title: "Handle it", album: "Rise up", image: "/release-handle_it.webp" },
-  { id: 2, title: "Echo", album: "me are Lay\'z", image: "/release-album-me_are_layz.webp" },
-  { id: 3, title: "770°", album: "n/a", image: "/release-770.webp" },
+  { id: "3281988d-df55-4bd3-95f9-dfcea4456f42", title: "Handle it", album: "Rise up", image: "/release-handle_it.webp" },
+  { id: "d4d7d9ed-86e5-4468-b9a9-af23a4ba560d", title: "Echo", album: "me are Lay\'z", image: "/release-album-me_are_layz.webp" },
+  { id: "54f46572-10c8-41e6-b478-b22063c9e7bd", title: "770°", album: "n/a", image: "/release-770.webp" },
 ];
 
 export default function ArtistPage() {
@@ -109,29 +109,47 @@ export default function ArtistPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {featuredSongs.map((song) => (
                   <Card key={song.id} className="overflow-hidden">
-                    <Image
-                      src={`${song.image}?height=300&width=300`}
-                      alt={song.title}
-                      width={300}
-                      height={300}
-                      layout="responsive"
-                    />
+                    {playingVideo === song.id ? (
+                      <div className="relative pt-[100%] bg-black">
+                        <iframe 
+                          className="absolute inset-0 w-full h-full pt-[8%]"
+                          src={`https://embed.wavlake.com/track/${song.id}?autoplay=1`}
+                          width="100%" 
+                          height="100%">
+                        </iframe>
+                      </div>
+                    ) : (
+                      <div className="relative bg-black">
+                        <Image
+                          src={`${song.image}?height=300&width=300`}
+                          alt={song.title}
+                          width={300}
+                          height={300}
+                          layout="responsive"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <Button 
+                            variant="secondary" 
+                            size="icon"
+                            onClick={() => setPlayingVideo(song.id)}
+                          >
+                            <Play className="h-8 w-8" />
+                          </Button>
+                        </div>
+                      </div>
+                    )}
                     <CardContent className="p-4">
-                      <h3 className="font-semibold text-lg mb-2">{song.title}</h3>
-                      {/* <p className="text-sm text-muted-foreground mb-4">{song.album}</p> */}
-                      <Button className="w-full">
-                        <Play className="mr-2 h-4 w-4" /> Play Now
-                      </Button>
+                      <h3 className="font-semibold">{song.title}</h3>
                     </CardContent>
                   </Card>
-                ))}
+              ))}
               </div>
             </section>
 
             {/* Albums Section */}
             <section id="albums" className="mb-12 pt-16 -mt-16">
               <h2 className="text-2xl font-semibold mb-4 text-center">Albums</h2>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {albums.map((album) => (
                   <Card key={album.id} className="overflow-hidden">
                     <Image

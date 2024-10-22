@@ -30,6 +30,12 @@ type SocialLink = {
       iconProps: { className: "h-5 w-5 fill-white" },
     },
     {
+      name: "Nostr",
+      icon: Icons.nostr_simple,
+      url: "https://primal.net/p/npub1vnhewgt6ep6f6xrsqm3kyup0ntfmdya3lctn2awx5r40fv7gvn4s45fm79",
+      iconProps: { className: "h-5 w-5 fill-white" },
+    },
+    {
       name: "YouTube",
       icon: Icons.youtube,
       url: "https://www.youtube.com/@dancewithlayz",
