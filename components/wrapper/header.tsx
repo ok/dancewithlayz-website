@@ -30,6 +30,12 @@ type SocialLink = {
       iconProps: { className: "h-5 w-5 fill-white" },
     },
     {
+      name: "Nostr",
+      icon: Icons.nostr_simple,
+      url: "https://primal.net/p/npub1vnhewgt6ep6f6xrsqm3kyup0ntfmdya3lctn2awx5r40fv7gvn4s45fm79",
+      iconProps: { className: "h-5 w-5 fill-white" },
+    },
+    {
       name: "YouTube",
       icon: Icons.youtube,
       url: "https://www.youtube.com/@dancewithlayz",
@@ -61,7 +67,7 @@ export function Header() {
   return (
     <header className="sticky top-0 z-20 bg-background/20 backdrop-blur-sm">
       <div className="container mx-auto px-4 py-2 flex justify-between items-center">
-        <div className="flex items-center md:space-x-4">
+        <div className="flex items-center lg:space-x-4 md:space-x-0">
           {socialLinks.map((link) => (
             <Link key={link.name} href={link.url} passHref target="_blank">
               <Button className="p-2 bg-transparent hover:bg-transparent group" size="icon">
@@ -96,7 +102,7 @@ export function Header() {
             </SheetTrigger>
             <SheetContent className="bg-gray-900/40 backdrop-blur-md text-white">
               <SheetHeader>
-                <SheetTitle className="text-white">Dance with Lay&apos;z</SheetTitle>
+                <SheetTitle className="pt-8 text-white">Dance with Lay&apos;z</SheetTitle>
               </SheetHeader>
               <div className="mt-4 space-y-4">
                 <Link href="/" onClick={() => setIsOpen(false)} className="block text-lg text-white hover:text-gray-300">
