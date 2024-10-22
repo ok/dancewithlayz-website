@@ -106,26 +106,25 @@ export default function ArtistPage() {
             {/* Featured Song Section */}
             <section id="songs" className="mb-12 pt-16 -mt-16">
               <h2 className="text-2xl font-semibold mb-4 text-center">Featured Songs</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
                 {featuredSongs.map((song) => (
-                  <Card key={song.id} className="overflow-hidden">
+                  <Card key={song.id} className="overflow-hidden w-full h-[440px] sm:w-160">
                     {playingVideo === song.id ? (
-                      <div className="relative pt-[100%] bg-black">
+                      <div className="relative bg-black h-[380px]">
                         <iframe 
-                          className="absolute inset-0 w-full h-full pt-[8%]"
+                          className="absolute inset-0 w-full h-full"
                           src={`https://embed.wavlake.com/track/${song.id}?autoplay=1`}
                           width="100%" 
                           height="100%">
                         </iframe>
                       </div>
                     ) : (
-                      <div className="relative bg-black">
+                      <div className="relative bg-black h-[380px]">
                         <Image
                           src={`${song.image}?height=300&width=300`}
                           alt={song.title}
-                          width={300}
-                          height={300}
-                          layout="responsive"
+                          layout="fill"
+                          objectFit="cover"
                         />
                         <div className="absolute inset-0 flex items-center justify-center">
                           <Button 
@@ -138,11 +137,11 @@ export default function ArtistPage() {
                         </div>
                       </div>
                     )}
-                    <CardContent className="p-4">
-                      <h3 className="font-semibold">{song.title}</h3>
+                    <CardContent className="p-4 h-[60px]">
+                      <h3 className="font-semibold truncate">{song.title}</h3>
                     </CardContent>
                   </Card>
-              ))}
+                ))}
               </div>
             </section>
 
@@ -151,15 +150,16 @@ export default function ArtistPage() {
               <h2 className="text-2xl font-semibold mb-4 text-center">Albums</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {albums.map((album) => (
-                  <Card key={album.id} className="overflow-hidden">
-                    <Image
-                      src={`${album.image}?height=300&width=300`}
-                      alt={album.title}
-                      width={300}
-                      height={300}
-                      layout="responsive"
-                    />
-                    <CardContent className="p-4">
+                  <Card key={album.id} className="overflow-hidden w-full h-[440px] sm:w-160">
+                    <div className="relative bg-black h-[360px]">
+                      <Image
+                        src={`${album.image}?height=300&width=300`}
+                        alt={album.title}
+                        layout="fill"
+                        objectFit="cover"
+                      />
+                    </div>
+                    <CardContent className="p-4 h-[60px]">
                       <h3 className="font-semibold">{album.title}</h3>
                       <p className="text-sm text-muted-foreground">{album.year}</p>
                     </CardContent>
