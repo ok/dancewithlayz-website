@@ -131,6 +131,7 @@ export default function ArtistPage() {
                             variant="secondary" 
                             size="icon"
                             onClick={() => setPlayingVideo(song.id)}
+                            aria-label="Play"
                           >
                             <Play className="h-8 w-8" />
                           </Button>
@@ -196,6 +197,7 @@ export default function ArtistPage() {
                               variant="secondary" 
                               size="icon"
                               onClick={() => setPlayingVideo(video.id)}
+                              aria-label="Play"
                             >
                               <Play className="h-8 w-8" />
                             </Button>
