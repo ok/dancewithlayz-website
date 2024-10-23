@@ -6,14 +6,27 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Play } from "lucide-react"
 
-const albums = [
-  { id: 1, title: "me are Lay\'z", year: 2023, image: "/release-album-me_are_layz.webp" },
-  { id: 2, title: "Rise up", year: 2023, image: "/release-album-drop_it_down.webp" },
-  { id: 3, title: "scky", year: 2023, image: "/release-album-scky.webp" }
+// Define a type for our song configuration
+type Album = {
+  id: string;
+  title: string;
+  year: number;
+  image: string;
+};
+
+const albums: Album[] = [
+  { id: "effadc6e-15e1-487d-9f34-9d9d42537089", title: "me are Lay\'z", year: 2023, image: "/release-album-me_are_layz.webp" },
+  { id: "343215c7-b37e-4d4f-9149-af5083bcad16", title: "drop it down", year: 2023, image: "/release-album-drop_it_down.webp" },
+  { id: "c66f6739-d8bf-46ca-9b2f-7f44326ded69", title: "scky", year: 2023, image: "/release-album-scky.webp" }
 ];
 
+type Video = {
+  id: string;
+  title: string;
+};
+
 // Define an array of YouTube video configurations
-const videos = [
+const videos: Video[] = [
   {
     id: "OWTMsEaQ3Q4",
     title: "Lay\'z - Echo",
@@ -41,7 +54,7 @@ type Song = {
 };
 
 // Create a configuration array for featured songs
-const featuredSongs: Song[] = [
+const songs: Song[] = [
   { id: "3281988d-df55-4bd3-95f9-dfcea4456f42", title: "Handle it", album: "Rise up", image: "/release-handle_it.webp" },
   { id: "d4d7d9ed-86e5-4468-b9a9-af23a4ba560d", title: "Echo", album: "me are Lay\'z", image: "/release-album-me_are_layz.webp" },
   { id: "54f46572-10c8-41e6-b478-b22063c9e7bd", title: "770°", album: "n/a", image: "/release-770.webp" },
@@ -98,7 +111,7 @@ export default function ArtistPage() {
             <section id="songs" className="mb-12 pt-16 -mt-16">
               <h2 className="text-2xl font-semibold mb-4 text-center">Featured Songs</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
-                {featuredSongs.map((song) => (
+                {songs.map((song) => (
                   <Card key={song.id} className="overflow-hidden w-full h-[440px] sm:w-160">
                     {isPlaying === song.id ? (
                       <div className="relative bg-black h-[380px]">
@@ -142,15 +155,36 @@ export default function ArtistPage() {
               <h2 className="text-2xl font-semibold mb-4 text-center">Albums</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {albums.map((album) => (
-                  <Card key={album.id} className="overflow-hidden w-full h-[440px] sm:w-160">
-                    <div className="relative bg-black h-[360px]">
-                      <Image
-                        src={`${album.image}?height=300&width=300`}
-                        alt={album.title}
-                        layout="fill"
-                        objectFit="cover"
-                      />
-                    </div>
+                  <Card key={album.id} className="overflow-hidden w-full h-[460px] sm:w-160">
+                    {isPlaying === album.id ? (
+                      <div className="relative bg-black h-[380px]">
+                        <iframe 
+                          className="absolute inset-0 w-full h-full"
+                          src={`https://embed.wavlake.com/album/${album.id}?autoplay=1`}
+                          width="100%" 
+                          height="100%">
+                        </iframe>
+                      </div>
+                    ) : (
+                      <div className="relative bg-black h-[380px]">
+                        <Image
+                          src={`${album.image}?height=300&width=300`}
+                          alt={album.title}
+                          layout="fill"
+                          objectFit="cover"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <Button 
+                            variant="secondary" 
+                            size="icon"
+                            onClick={() => setPlaying(album.id)}
+                            aria-label="Play"
+                          >
+                            <Play className="h-8 w-8" />
+                          </Button>
+                        </div>
+                      </div>
+                    )}
                     <CardContent className="p-4 h-[60px]">
                       <h3 className="font-semibold">{album.title}</h3>
                       <p className="text-sm text-muted-foreground">{album.year}</p>

@@ -54,6 +54,12 @@ type SocialLink = {
       iconProps: { className: "h-5 w-5 fill-white" },
     },
     {
+      name: "TikTok",
+      icon: Icons.tiktok,
+      url: "https://tiktok.com/@dancewithlayz",
+      iconProps: { className: "h-5 w-5 fill-white" },
+    },
+    {
       name: "Twitter",
       icon: Icons.twitter,
       url: "https://twitter.com/dancewithlayz",
