@@ -13,30 +13,22 @@ const albums = [
 ];
 
 // Define an array of YouTube video configurations
-const youtubeVideos = [
+const videos = [
   {
     id: "OWTMsEaQ3Q4",
     title: "Lay\'z - Echo",
-    views: "1.2B views",
-    uploadDate: "3 months ago"
   },
   {
     id: "NDeack15uas",
     title: "Lay\'z - Handle it",
-    views: "4.6B views",
-    uploadDate: "11 years ago"
   },
   {
     id: "HnCdzcfZCQU",
     title: "Lay\'z - Freedom to the Beat",
-    views: "5.8B views",
-    uploadDate: "6 years ago"
   },
   {
     id: "dS8tCeIl4Os",
     title: "Lay\'z - Kryptonite",
-    views: "8B views",
-    uploadDate: "6 years ago"
   }
 ];
 
@@ -56,9 +48,8 @@ const featuredSongs: Song[] = [
 ];
 
 export default function ArtistPage() {
-  const [isOpen, setIsOpen] = useState(false)
   const [currentSection, setCurrentSection] = useState("Home")
-  const [playingVideo, setPlayingVideo] = useState<string | null>(null);
+  const [isPlaying, setPlaying] = useState<string | null>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -109,7 +100,7 @@ export default function ArtistPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
                 {featuredSongs.map((song) => (
                   <Card key={song.id} className="overflow-hidden w-full h-[440px] sm:w-160">
-                    {playingVideo === song.id ? (
+                    {isPlaying === song.id ? (
                       <div className="relative bg-black h-[380px]">
                         <iframe 
                           className="absolute inset-0 w-full h-full"
@@ -130,7 +121,7 @@ export default function ArtistPage() {
                           <Button 
                             variant="secondary" 
                             size="icon"
-                            onClick={() => setPlayingVideo(song.id)}
+                            onClick={() => setPlaying(song.id)}
                             aria-label="Play"
                           >
                             <Play className="h-8 w-8" />
@@ -173,10 +164,10 @@ export default function ArtistPage() {
             <section id="videos" className="mb-12 pt-16 -mt-16">
               <h2 className="text-2xl font-semibold mb-4 text-center">Videos</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {youtubeVideos.map((video) => (
+                {videos.map((video) => (
                   <Card key={video.id} className="overflow-hidden">
                     <div className="relative pt-[56.25%]">
-                      {playingVideo === video.id ? (
+                      {isPlaying === video.id ? (
                         <iframe
                           className="absolute inset-0 w-full h-full"
                           src={`https://www.youtube.com/embed/${video.id}?autoplay=1`}
@@ -196,7 +187,7 @@ export default function ArtistPage() {
                             <Button 
                               variant="secondary" 
                               size="icon"
-                              onClick={() => setPlayingVideo(video.id)}
+                              onClick={() => setPlaying(video.id)}
                               aria-label="Play"
                             >
                               <Play className="h-8 w-8" />
@@ -207,7 +198,6 @@ export default function ArtistPage() {
                     </div>
                     <CardContent className="p-4">
                       <h3 className="font-semibold">{video.title}</h3>
-                      {/* <p className="text-sm text-muted-foreground">{video.views} • {video.uploadDate}</p> */}
                     </CardContent>
                   </Card>
                 ))}
