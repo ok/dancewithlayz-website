@@ -20,31 +20,28 @@ const albums: Album[] = [
   { id: "c66f6739-d8bf-46ca-9b2f-7f44326ded69", title: "scky", year: 2023, image: "/release-album-scky.webp" }
 ];
 
+type Video = {
+  id: string;
+  title: string;
+};
+
 // Define an array of YouTube video configurations
-const youtubeVideos = [
+const videos: Video[] = [
   {
     id: "OWTMsEaQ3Q4",
     title: "Lay\'z - Echo",
-    views: "1.2B views",
-    uploadDate: "3 months ago"
   },
   {
     id: "NDeack15uas",
     title: "Lay\'z - Handle it",
-    views: "4.6B views",
-    uploadDate: "11 years ago"
   },
   {
     id: "HnCdzcfZCQU",
     title: "Lay\'z - Freedom to the Beat",
-    views: "5.8B views",
-    uploadDate: "6 years ago"
   },
   {
     id: "dS8tCeIl4Os",
     title: "Lay\'z - Kryptonite",
-    views: "8B views",
-    uploadDate: "6 years ago"
   }
 ];
 
@@ -64,7 +61,6 @@ const songs: Song[] = [
 ];
 
 export default function ArtistPage() {
-  const [isOpen, setIsOpen] = useState(false)
   const [currentSection, setCurrentSection] = useState("Home")
   const [isPlaying, setPlaying] = useState<string | null>(null);
 
@@ -202,7 +198,7 @@ export default function ArtistPage() {
             <section id="videos" className="mb-12 pt-16 -mt-16">
               <h2 className="text-2xl font-semibold mb-4 text-center">Videos</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {youtubeVideos.map((video) => (
+                {videos.map((video) => (
                   <Card key={video.id} className="overflow-hidden">
                     <div className="relative pt-[56.25%]">
                       {isPlaying === video.id ? (
@@ -236,7 +232,6 @@ export default function ArtistPage() {
                     </div>
                     <CardContent className="p-4">
                       <h3 className="font-semibold">{video.title}</h3>
-                      {/* <p className="text-sm text-muted-foreground">{video.views} • {video.uploadDate}</p> */}
                     </CardContent>
                   </Card>
                 ))}
