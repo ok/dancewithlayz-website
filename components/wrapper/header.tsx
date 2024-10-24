@@ -72,7 +72,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-20 bg-background/20 backdrop-blur-sm">
-      <div className="container mx-auto px-4 py-2 flex justify-between items-center">
+      <div className="container relative mx-auto px-4 py-2 flex justify-between items-center">
         <div className="flex items-center lg:space-x-4 md:space-x-0">
           {socialLinks.map((link) => (
             <Link key={link.name} href={link.url} passHref target="_blank">
@@ -83,11 +83,10 @@ export function Header() {
             </Link>
           ))}
         </div>
-        <h1 className="text-lg font-semibold hidden md:block">Dance with Lay&apos;z</h1>
+        <Link href="/" className="text-lg text-white hover:text-gray-300 hidden md:block font-semibold absolute left-1/2 transform -translate-x-1/2">
+          Dance with Lay&apos;z
+        </Link>
         <nav className="hidden md:flex md:space-x-4">
-          <Link href="/" className="text-sm font-medium hover:text-gray-400">
-            Home
-          </Link>
           <Link href="/#songs" className="text-sm font-medium hover:text-gray-400">
             Songs
           </Link>
