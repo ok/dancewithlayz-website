@@ -45,6 +45,14 @@ type Video = {
 // Define an array of YouTube video configurations
 const videos: Video[] = [
   {
+    id: "7iyQxydI3OA",
+    title: "Lay\'z - Dancing in the Rain",
+  },
+  {
+    id: "mOdXes5D904",
+    title: "Lay\'z - DJ'Z Heat",
+  },
+  {
     id: "OWTMsEaQ3Q4",
     title: "Lay\'z - Echo",
   },
@@ -72,6 +80,7 @@ type Song = {
 
 // Create a configuration array for featured songs
 const songs: Song[] = [
+  { id: "c222d2f5-0482-4fd8-b447-050577a29507", title: "DJ'Z Heat", album: "DJ'Z Heat", image: "/release_djzheat.jpg" },
   { id: "3281988d-df55-4bd3-95f9-dfcea4456f42", title: "Handle it", album: "Rise up", image: "/release-handle_it.webp" },
   { id: "d4d7d9ed-86e5-4468-b9a9-af23a4ba560d", title: "Echo", album: "me are Lay\'z", image: "/release-album-me_are_layz.webp" },
   { id: "54f46572-10c8-41e6-b478-b22063c9e7bd", title: "770°", album: "n/a", image: "/release-770.webp" },
@@ -154,7 +163,8 @@ export default function ArtistPage() {
             <section id="songs" className="mb-12 pt-16 -mt-16">
               <h2 className="text-2xl font-semibold mb-4 text-center">Featured Songs</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
-                {songs.map((song) => (
+                {/* only show first 3 songs from list */}
+                {songs.slice(0, 3).map((song) => ( // only show first 3 songs from list
                   <Card key={song.id} className="overflow-hidden w-full h-[440px] sm:w-160">
                     {isPlaying === song.id ? (
                       <div className="relative bg-black h-[380px]">
