@@ -26,7 +26,7 @@ type SocialLink = {
     {
       name: "Wavlake",
       icon: Icons.wavlake,
-      url: "https://wavlake.com/lay-z",
+      url: "https://wavlake.com/dancewithlayz",
       iconProps: { className: "h-5 w-5 fill-white" },
     },
     {

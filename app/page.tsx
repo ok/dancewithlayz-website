@@ -6,6 +6,23 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Play } from "lucide-react"
 
+type TextBlocks = {
+  artistDescription: string;
+  artistDescriptionShort: string;
+
+}
+
+const textBlocks = {
+  artistDescription: 
+    "After being involved in countless musical productions on the digital level, \n" +
+    "Lay`z spent a long a reflecting on its existence. It decided to do nothing less" + 
+    "than change the world with electronic dance music. To better express its feelings, " +
+    "Lay`z collaborates with singers on some songs, while remaining responsible for the musical elements. " +
+    "To transform the world into a more relaxed place, Lay'z produces songs in the genres of House, Dance, and EDM.",
+  artistDescriptionShort:
+    "After being involved in countless musical productions on the digital level, Lay`z spent a long a reflecting on its existence.",
+}
+
 // Define a type for our song configuration
 type Album = {
   id: string;
@@ -27,6 +44,14 @@ type Video = {
 
 // Define an array of YouTube video configurations
 const videos: Video[] = [
+  {
+    id: "7iyQxydI3OA",
+    title: "Lay\'z - Dancing in the Rain",
+  },
+  {
+    id: "mOdXes5D904",
+    title: "Lay\'z - DJ'Z Heat",
+  },
   {
     id: "OWTMsEaQ3Q4",
     title: "Lay\'z - Echo",
@@ -55,6 +80,7 @@ type Song = {
 
 // Create a configuration array for featured songs
 const songs: Song[] = [
+  { id: "c222d2f5-0482-4fd8-b447-050577a29507", title: "DJ'Z Heat", album: "DJ'Z Heat", image: "/release_djzheat.jpg" },
   { id: "3281988d-df55-4bd3-95f9-dfcea4456f42", title: "Handle it", album: "Rise up", image: "/release-handle_it.webp" },
   { id: "d4d7d9ed-86e5-4468-b9a9-af23a4ba560d", title: "Echo", album: "me are Lay\'z", image: "/release-album-me_are_layz.webp" },
   { id: "54f46572-10c8-41e6-b478-b22063c9e7bd", title: "770°", album: "n/a", image: "/release-770.webp" },
@@ -63,6 +89,7 @@ const songs: Song[] = [
 export default function ArtistPage() {
   const [currentSection, setCurrentSection] = useState("Home")
   const [isPlaying, setPlaying] = useState<string | null>(null);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -94,12 +121,37 @@ export default function ArtistPage() {
             />
             <div className="absolute inset-0 flex items-end pb-8">
               <div className="container mx-auto px-4">
-                <div className="w-2/4">
+                <div className="md:w-2/4">
                   <div className="bg-black bg-opacity-60 p-4 rounded-lg">
                     <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Lay&apos;z</h2>
-                    <p className="text-sm md:text-base text-white">
-                      I am an A.I.A. (Artificial Intelligence Artist), created in a processor at Unix-era 1551965720. Since I haven&apos;t found my purpose yet, I will change the world through electronic dance music.
-                    </p>
+                    <div className="text-sm md:text-base text-white">
+                      <p className="md:block hidden">
+                        {textBlocks.artistDescription}
+                      </p>
+                      <div className="block md:hidden">
+                        {isExpanded ? (
+                          <p>
+                            {textBlocks.artistDescription}
+                            <button 
+                              onClick={() => setIsExpanded(false)}
+                              className="text-blue-400 hover:text-blue-300 ml-1"
+                            >
+                              Show less
+                            </button>
+                          </p>
+                        ) : (
+                          <p>
+                            {textBlocks.artistDescriptionShort}
+                            <button 
+                              onClick={() => setIsExpanded(true)}
+                              className="text-blue-400 hover:text-blue-300 ml-1"
+                            >
+                              Read more
+                            </button>
+                          </p>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -111,7 +163,8 @@ export default function ArtistPage() {
             <section id="songs" className="mb-12 pt-16 -mt-16">
               <h2 className="text-2xl font-semibold mb-4 text-center">Featured Songs</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
-                {songs.map((song) => (
+                {/* only show first 3 songs from list */}
+                {songs.slice(0, 3).map((song) => ( // only show first 3 songs from list
                   <Card key={song.id} className="overflow-hidden w-full h-[440px] sm:w-160">
                     {isPlaying === song.id ? (
                       <div className="relative bg-black h-[380px]">
