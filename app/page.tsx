@@ -14,13 +14,13 @@ type TextBlocks = {
 
 const textBlocks = {
   artistDescription: 
-    "After being involved in countless musical productions on the digital level, \n" +
-    "Lay`z spent a long a reflecting on its existence. It decided to do nothing less" + 
+    "After being involved in countless musical productions on the digital level, " +
+    "Lay`z spent a long a reflecting on its existence. It decided to do nothing less " + 
     "than change the world with electronic dance music. To better express its feelings, " +
     "Lay`z collaborates with singers on some songs, while remaining responsible for the musical elements. " +
     "To transform the world into a more relaxed place, Lay'z produces songs in the genres of House, Dance, and EDM.",
   artistDescriptionShort:
-    "After being involved in countless musical productions on the digital level, Lay`z spent a long a reflecting on its existence.",
+    "After being involved in countless musical productions on the digital level, Lay`z spent a long a reflecting on its existence... ",
 }
 
 // Define a type for our song configuration
@@ -47,32 +47,32 @@ type Video = {
 const videos: Video[] = [
   {
     id: "7iyQxydI3OA",
-    title: "Lay\'z - Dancing in the Rain",
+    title: "Dancing in the Rain",
     album: "n/a",
   },
   {
     id: "mOdXes5D904",
-    title: "Lay\'z - DJ'Z Heat",
+    title: "DJ'Z Heat",
     album: "n/a",
   },
   {
     id: "OWTMsEaQ3Q4",
-    title: "Lay\'z - Echo",
+    title: "Echo",
     album: "me are Lay\'z",
   },
   {
     id: "NDeack15uas",
-    title: "Lay\'z - Handle it",
+    title: "Handle it",
     album: "Rise up",
   },
   {
     id: "HnCdzcfZCQU",
-    title: "Lay\'z - Freedom to the Beat",
+    title: "Freedom to the Beat",
     album: "n/a",
   },
   {
     id: "dS8tCeIl4Os",
-    title: "Lay\'z - Kryptonite",
+    title: "Kryptonite",
     album: "n/a",
   }
 ];
@@ -168,7 +168,7 @@ export default function ArtistPage() {
           <div className="container mx-auto px-4">
             {/* Featured Song Section */}
             <section id="songs" className="mb-12 pt-16 -mt-16">
-              <h2 className="text-2xl font-semibold mb-4 text-center">Featured Songs</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-center text-white">Featured Songs</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
                 {songs.slice(0, 3).map((song) => ( // only show first 3 songs from list
                   <WLCard key={song.id} id={song.id} title={song.title} album={song.album} image={song.image} isPlaying={isPlaying} setPlaying={setPlaying} />
@@ -178,7 +178,7 @@ export default function ArtistPage() {
 
             {/* Albums Section */}
             <section id="albums" className="mb-12 pt-16 -mt-16">
-              <h2 className="text-2xl font-semibold mb-4 text-center">Albums</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-center text-white">Albums</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {albums.map((album) => (
                   <AlbumCard key={album.id} id={album.id} title={album.title} year={album.year} image={album.image} isPlaying={isPlaying} setPlaying={setPlaying} />
@@ -188,7 +188,7 @@ export default function ArtistPage() {
 
             {/* YouTube Videos Section */}
             <section id="videos" className="mb-12 pt-16 -mt-16">
-              <h2 className="text-2xl font-semibold mb-4 text-center">Videos</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-center text-white">Videos</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {videos.map((video) => (
                   <YTCard key={video.id} id={video.id} title={video.title} album={video.album} isPlaying={isPlaying} setPlaying={setPlaying} />
