@@ -66,7 +66,7 @@ export default function RootLayout({
                 {children}
               </main>
               <footer className="bg-background/20 backdrop-blur-sm py-4">
-                <div className="container mx-auto px-4 text-center text-sm text-foreground">
+                <div className="container mx-auto px-4 text-center text-sm text-white font-bold">
                   © {new Date().getFullYear()} Dance with Lay&apos;z. All rights reserved.
                 </div>
               </footer>

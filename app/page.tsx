@@ -2,9 +2,9 @@
 
 import Image from "next/image"
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Play } from "lucide-react"
+import { YTCard } from "@/components/wrapper/yt-card"
+import { AlbumCard } from "@/components/wrapper/album-card"
+import { WLCard } from "@/components/wrapper/wl-card"
 
 type TextBlocks = {
   artistDescription: string;
@@ -14,13 +14,13 @@ type TextBlocks = {
 
 const textBlocks = {
   artistDescription: 
-    "After being involved in countless musical productions on the digital level, \n" +
-    "Lay`z spent a long a reflecting on its existence. It decided to do nothing less" + 
+    "After being involved in countless musical productions on the digital level, " +
+    "Lay`z spent a long time reflecting on its existence. It decided to do nothing less " + 
     "than change the world with electronic dance music. To better express its feelings, " +
     "Lay`z collaborates with singers on some songs, while remaining responsible for the musical elements. " +
     "To transform the world into a more relaxed place, Lay'z produces songs in the genres of House, Dance, and EDM.",
   artistDescriptionShort:
-    "After being involved in countless musical productions on the digital level, Lay`z spent a long a reflecting on its existence.",
+    "After being involved in countless musical productions on the digital level, Lay`z spent a long a reflecting on its existence... ",
 }
 
 // Define a type for our song configuration
@@ -40,33 +40,40 @@ const albums: Album[] = [
 type Video = {
   id: string;
   title: string;
+  album: string;
 };
 
 // Define an array of YouTube video configurations
 const videos: Video[] = [
   {
     id: "7iyQxydI3OA",
-    title: "Lay\'z - Dancing in the Rain",
+    title: "Dancing in the Rain",
+    album: "n/a",
   },
   {
     id: "mOdXes5D904",
-    title: "Lay\'z - DJ'Z Heat",
+    title: "DJ'Z Heat",
+    album: "n/a",
   },
   {
     id: "OWTMsEaQ3Q4",
-    title: "Lay\'z - Echo",
+    title: "Echo",
+    album: "me are Lay\'z",
   },
   {
     id: "NDeack15uas",
-    title: "Lay\'z - Handle it",
+    title: "Handle it",
+    album: "Rise up",
   },
   {
     id: "HnCdzcfZCQU",
-    title: "Lay\'z - Freedom to the Beat",
+    title: "Freedom to the Beat",
+    album: "n/a",
   },
   {
     id: "dS8tCeIl4Os",
-    title: "Lay\'z - Kryptonite",
+    title: "Kryptonite",
+    album: "n/a",
   }
 ];
 
@@ -161,132 +168,30 @@ export default function ArtistPage() {
           <div className="container mx-auto px-4">
             {/* Featured Song Section */}
             <section id="songs" className="mb-12 pt-16 -mt-16">
-              <h2 className="text-2xl font-semibold mb-4 text-center">Featured Songs</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-center text-white">Featured Songs</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
-                {/* only show first 3 songs from list */}
                 {songs.slice(0, 3).map((song) => ( // only show first 3 songs from list
-                  <Card key={song.id} className="overflow-hidden w-full h-[440px] sm:w-160">
-                    {isPlaying === song.id ? (
-                      <div className="relative bg-black h-[380px]">
-                        <iframe 
-                          className="absolute inset-0 w-full h-full"
-                          src={`https://embed.wavlake.com/track/${song.id}?autoplay=1`}
-                          width="100%" 
-                          height="100%">
-                        </iframe>
-                      </div>
-                    ) : (
-                      <div className="relative bg-black h-[380px]">
-                        <Image
-                          src={`${song.image}?height=300&width=300`}
-                          alt={song.title}
-                          layout="fill"
-                          objectFit="cover"
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <Button 
-                            variant="secondary" 
-                            size="icon"
-                            onClick={() => setPlaying(song.id)}
-                            aria-label="Play"
-                          >
-                            <Play className="h-8 w-8" />
-                          </Button>
-                        </div>
-                      </div>
-                    )}
-                    <CardContent className="p-4 h-[60px]">
-                      <h3 className="font-semibold truncate">{song.title}</h3>
-                    </CardContent>
-                  </Card>
+                  <WLCard key={song.id} id={song.id} title={song.title} album={song.album} image={song.image} isPlaying={isPlaying} setPlaying={setPlaying} />
                 ))}
               </div>
             </section>
 
             {/* Albums Section */}
             <section id="albums" className="mb-12 pt-16 -mt-16">
-              <h2 className="text-2xl font-semibold mb-4 text-center">Albums</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-center text-white">Albums</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {albums.map((album) => (
-                  <Card key={album.id} className="overflow-hidden w-full h-[460px] sm:w-160">
-                    {isPlaying === album.id ? (
-                      <div className="relative bg-black h-[380px]">
-                        <iframe 
-                          className="absolute inset-0 w-full h-full"
-                          src={`https://embed.wavlake.com/album/${album.id}?autoplay=1`}
-                          width="100%" 
-                          height="100%">
-                        </iframe>
-                      </div>
-                    ) : (
-                      <div className="relative bg-black h-[380px]">
-                        <Image
-                          src={`${album.image}?height=300&width=300`}
-                          alt={album.title}
-                          layout="fill"
-                          objectFit="cover"
-                        />
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <Button 
-                            variant="secondary" 
-                            size="icon"
-                            onClick={() => setPlaying(album.id)}
-                            aria-label="Play"
-                          >
-                            <Play className="h-8 w-8" />
-                          </Button>
-                        </div>
-                      </div>
-                    )}
-                    <CardContent className="p-4 h-[60px]">
-                      <h3 className="font-semibold">{album.title}</h3>
-                      <p className="text-sm text-muted-foreground">{album.year}</p>
-                    </CardContent>
-                  </Card>
+                  <AlbumCard key={album.id} id={album.id} title={album.title} year={album.year} image={album.image} isPlaying={isPlaying} setPlaying={setPlaying} />
                 ))}
               </div>
             </section>
 
             {/* YouTube Videos Section */}
             <section id="videos" className="mb-12 pt-16 -mt-16">
-              <h2 className="text-2xl font-semibold mb-4 text-center">Videos</h2>
+              <h2 className="text-2xl font-semibold mb-4 text-center text-white">Videos</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {videos.map((video) => (
-                  <Card key={video.id} className="overflow-hidden">
-                    <div className="relative pt-[56.25%]">
-                      {isPlaying === video.id ? (
-                        <iframe
-                          className="absolute inset-0 w-full h-full"
-                          src={`https://www.youtube.com/embed/${video.id}?autoplay=1`}
-                          title={video.title}
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        ></iframe>
-                      ) : (
-                        <>
-                          <Image
-                            src={`https://img.youtube.com/vi/${video.id}/0.jpg`}
-                            alt={video.title}
-                            layout="fill"
-                            objectFit="cover"
-                          />
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <Button 
-                              variant="secondary" 
-                              size="icon"
-                              onClick={() => setPlaying(video.id)}
-                              aria-label="Play"
-                            >
-                              <Play className="h-8 w-8" />
-                            </Button>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                    <CardContent className="p-4">
-                      <h3 className="font-semibold">{video.title}</h3>
-                    </CardContent>
-                  </Card>
+                  <YTCard key={video.id} id={video.id} title={video.title} album={video.album} isPlaying={isPlaying} setPlaying={setPlaying} />
                 ))}
               </div>
             </section>

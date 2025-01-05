@@ -87,13 +87,13 @@ export function Header() {
           Dance with Lay&apos;z
         </Link>
         <nav className="hidden md:flex md:space-x-4">
-          <Link href="/#songs" className="text-sm font-medium hover:text-gray-400">
+          <Link href="/#songs" className="text-sm font-medium text-white hover:text-gray-400">
             Songs
           </Link>
-          <Link href="/#albums" className="text-sm font-medium hover:text-gray-400">
+          <Link href="/#albums" className="text-sm font-medium text-white hover:text-gray-400">
             Albums
           </Link>
-          <Link href="/#videos" className="text-sm font-medium hover:text-gray-400">
+          <Link href="/#videos" className="text-sm font-medium text-white hover:text-gray-400">
             Videos
           </Link>
         </nav>
