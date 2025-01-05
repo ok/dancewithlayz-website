@@ -109,7 +109,7 @@ export default function ArtistPage() {
         {/* Full-width Artist Image */}
         <div className="relative w-full h-[70vh] mb-8">
           <Image
-            src="/layz-banner.webp?height=1080&width=1920"
+            src="/layz-background.webp?height=1080&width=1920"
             alt="Artist Name"
             layout="fill"
             objectFit="cover"

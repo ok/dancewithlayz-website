@@ -54,7 +54,7 @@ export default function RootLayout({
             <div
               className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
               style={{
-                backgroundImage: "url('/banner-layz.webp')",
+                backgroundImage: "url('/background-layz.webp')",
                 filter: "brightness(0.3)"
               }}
             ></div>
