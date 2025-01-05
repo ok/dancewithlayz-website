@@ -15,7 +15,7 @@ type TextBlocks = {
 const textBlocks = {
   artistDescription: 
     "After being involved in countless musical productions on the digital level, " +
-    "Lay`z spent a long a reflecting on its existence. It decided to do nothing less " + 
+    "Lay`z spent a long time reflecting on its existence. It decided to do nothing less " + 
     "than change the world with electronic dance music. To better express its feelings, " +
     "Lay`z collaborates with singers on some songs, while remaining responsible for the musical elements. " +
     "To transform the world into a more relaxed place, Lay'z produces songs in the genres of House, Dance, and EDM.",
