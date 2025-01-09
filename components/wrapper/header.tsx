@@ -48,6 +48,12 @@ type SocialLink = {
       iconProps: { className: "h-5 w-5 fill-white" },
     },
     {
+      name: "Soundcloud",
+      icon: Icons.soundcloud,
+      url: "https://on.soundcloud.com/VnwC6AKmZtTmvXRp6",
+      iconProps: { className: "h-5 w-5 fill-white" },
+    },
+    {
       name: "Instagram",
       icon: Icons.insta,
       url: "https://www.instagram.com/dancewithlayz",

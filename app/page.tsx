@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "next/image"
+import Image from "next/legacy/image"
 import { useState, useEffect } from "react"
 import { YTCard } from "@/components/wrapper/yt-card"
 import { AlbumCard } from "@/components/wrapper/album-card"
@@ -114,7 +114,7 @@ export default function ArtistPage() {
   }, [])
 
   return (
-    <div className="min-h-screen flex flex-col relative">
+    (<div className="min-h-screen flex flex-col relative">
       <div className="relative z-10 flex flex-col min-h-screen">
         <main className="flex-grow">
           {/* Full-width Artist Image */}
@@ -171,7 +171,7 @@ export default function ArtistPage() {
               <h2 className="text-2xl font-semibold mb-4 text-center text-white">Featured Songs</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
                 {songs.slice(0, 3).map((song) => ( // only show first 3 songs from list
-                  <WLCard key={song.id} id={song.id} title={song.title} album={song.album} image={song.image} isPlaying={isPlaying} setPlaying={setPlaying} />
+                  (<WLCard key={song.id} id={song.id} title={song.title} album={song.album} image={song.image} isPlaying={isPlaying} setPlaying={setPlaying} />)
                 ))}
               </div>
             </section>
@@ -198,6 +198,6 @@ export default function ArtistPage() {
           </div>
         </main>
       </div>
-    </div>
-  )
+    </div>)
+  );
 }
