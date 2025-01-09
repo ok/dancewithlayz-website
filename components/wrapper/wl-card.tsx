@@ -1,6 +1,6 @@
 "use client"
 
-import Image from "next/image"
+import Image from "next/legacy/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Play } from "lucide-react"
@@ -24,6 +24,7 @@ export function WLCard({ id, title, album, image, isPlaying, setPlaying }: { id:
           alt={title}
           layout="fill"
           objectFit="cover"
+          sizes="(max-width: 300px) 100vw"
         />
         <div className="absolute inset-0 flex items-center justify-center">
           <Button 
