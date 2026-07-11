@@ -4,6 +4,9 @@ import { GeistSans } from 'geist/font/sans'
 import type { Metadata } from 'next'
 import './globals.css'
 import { Header } from '@/components/wrapper/header'
+import { CircuitBackground } from '@/components/wrapper/circuit-background'
+import { RadioPlayer } from '@/components/wrapper/radio-player'
+import { GeistMono } from 'geist/font/mono'
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://dancewithlayz.com"),
@@ -50,14 +53,8 @@ export default function RootLayout({
       <body className={GeistSans.className}>
         <Provider>
           <div className="min-h-screen flex flex-col relative">
-            {/* Background Image */}
-            <div
-              className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat"
-              style={{
-                backgroundImage: "url('/background-layz.webp')",
-                filter: "brightness(0.3)"
-              }}
-            ></div>
+            {/* Pulsating circuit-board background */}
+            <CircuitBackground />
 
             {/* Content Wrapper */}
             <div className="relative z-10 flex flex-col min-h-screen">
@@ -65,13 +62,15 @@ export default function RootLayout({
               <main className="flex-grow">
                 {children}
               </main>
-              <footer className="bg-background/20 backdrop-blur-sm py-4">
-                <div className="container mx-auto px-4 text-center text-sm text-white font-bold">
-                  © {new Date().getFullYear()} Dance with Lay&apos;z. All rights reserved.
+              <footer className="border-t hairline bg-background/20 backdrop-blur-sm py-5">
+                <div className={`${GeistMono.className} container mx-auto px-4 flex flex-col sm:flex-row justify-between gap-2 text-xs uppercase tracking-[0.1em] text-white/75`}>
+                  <span>&copy; {new Date().getFullYear()} Dance with Lay&apos;z</span>
+                  <span>All rights reserved</span>
                 </div>
               </footer>
             </div>
           </div>
+          <RadioPlayer />
           <Toaster />
         </Provider>
       </body>

@@ -1,10 +1,12 @@
 "use client"
 
 import Image from "next/legacy/image"
+import Link from "next/link"
 import { useState, useEffect } from "react"
+import { GeistMono } from "geist/font/mono"
 import { YTCard } from "@/components/wrapper/yt-card"
 import { AlbumCard } from "@/components/wrapper/album-card"
-import { WLCard } from "@/components/wrapper/wl-card"
+import { SCTrackRow } from "@/components/wrapper/sc-player"
 
 type TextBlocks = {
   artistDescription: string;
@@ -46,11 +48,6 @@ type Video = {
 // Define an array of YouTube video configurations
 const videos: Video[] = [
   {
-    id: "7iyQxydI3OA",
-    title: "Dancing in the Rain",
-    album: "n/a",
-  },
-  {
     id: "mOdXes5D904",
     title: "DJ'Z Heat",
     album: "n/a",
@@ -60,38 +57,22 @@ const videos: Video[] = [
     title: "Echo",
     album: "me are Lay\'z",
   },
-  {
-    id: "NDeack15uas",
-    title: "Handle it",
-    album: "Rise up",
-  },
-  {
-    id: "HnCdzcfZCQU",
-    title: "Freedom to the Beat",
-    album: "n/a",
-  },
-  {
-    id: "dS8tCeIl4Os",
-    title: "Kryptonite",
-    album: "n/a",
-  }
 ];
 
-// Define a type for our song configuration
-type Song = {
-  id: string;
+// Featured Songs are now streamed straight from SoundCloud.
+type FeaturedSong = {
+  url: string;
   title: string;
-  album: string;
-  image: string;
+  image?: string;
 };
 
-// Create a configuration array for featured songs
-const songs: Song[] = [
-  { id: "c222d2f5-0482-4fd8-b447-050577a29507", title: "DJ'Z Heat", album: "DJ'Z Heat", image: "/release_djzheat.jpg" },
-  { id: "3281988d-df55-4bd3-95f9-dfcea4456f42", title: "Handle it", album: "Rise up", image: "/release-handle_it.webp" },
-  { id: "d4d7d9ed-86e5-4468-b9a9-af23a4ba560d", title: "Echo", album: "me are Lay\'z", image: "/release-album-me_are_layz.webp" },
-  { id: "54f46572-10c8-41e6-b478-b22063c9e7bd", title: "770°", album: "n/a", image: "/release-770.webp" },
+const featuredSongs: FeaturedSong[] = [
+  { url: "https://soundcloud.com/dancewithlayz/dj-z-heat", title: "DJ'Z Heat", image: "/release_djzheat.jpg" },
+  { url: "https://soundcloud.com/dancewithlayz/handel-it", title: "Handle it", image: "/release-handle_it.webp" },
+  { url: "https://soundcloud.com/dancewithlayz/take-it-slow-wav", title: "Take it Slow" },
 ];
+
+const introTrackUrl = "https://soundcloud.com/dancewithlayz/human-in-a-loop-intro";
 
 export default function ArtistPage() {
   const [currentSection, setCurrentSection] = useState("Home")
@@ -117,8 +98,8 @@ export default function ArtistPage() {
     (<div className="min-h-screen flex flex-col relative">
       <div className="relative z-10 flex flex-col min-h-screen">
         <main className="flex-grow">
-          {/* Full-width Artist Image */}
-          <div className="relative w-full h-[70vh] mb-8">
+          {/* Hero */}
+          <div className="relative w-full h-[70vh] mb-8 border-b hairline overflow-hidden">
             <Image
               src="/banner-layz.webp?height=1080&width=1920"
               alt="Artist Name"
@@ -126,40 +107,59 @@ export default function ArtistPage() {
               objectFit="cover"
               priority
             />
-            <div className="absolute inset-0 flex items-end pb-8">
+            <div
+              className="absolute inset-0"
+              style={{
+                background: "linear-gradient(180deg, rgba(11,10,18,0.15) 0%, rgba(11,10,18,0.35) 55%, rgba(11,10,18,0.9) 100%)"
+              }}
+            />
+            <div className="absolute inset-0 flex items-end pb-10">
               <div className="container mx-auto px-4">
-                <div className="md:w-2/4">
-                  <div className="bg-black bg-opacity-60 p-4 rounded-lg">
-                    <h2 className="text-2xl md:text-3xl font-bold text-white mb-2">Lay&apos;z</h2>
-                    <div className="text-sm md:text-base text-white">
-                      <p className="md:block hidden">
+                <div className={`${GeistMono.className} eyebrow mb-2`}>A.I.A. &mdash; House / Dance / EDM</div>
+                <h2 className="chrome-text text-4xl md:text-6xl font-extrabold uppercase tracking-wide mb-3">
+                  Lay&apos;z
+                </h2>
+                <div className="md:w-2/4 text-sm md:text-base text-white/80">
+                  <p className="md:block hidden">
+                    {textBlocks.artistDescription}
+                  </p>
+                  <div className="block md:hidden">
+                    {isExpanded ? (
+                      <p>
                         {textBlocks.artistDescription}
+                        <button
+                          onClick={() => setIsExpanded(false)}
+                          className="text-[hsl(var(--acid))] hover:text-[hsl(var(--acid-dim))] ml-1"
+                        >
+                          Show less
+                        </button>
                       </p>
-                      <div className="block md:hidden">
-                        {isExpanded ? (
-                          <p>
-                            {textBlocks.artistDescription}
-                            <button 
-                              onClick={() => setIsExpanded(false)}
-                              className="text-blue-400 hover:text-blue-300 ml-1"
-                            >
-                              Show less
-                            </button>
-                          </p>
-                        ) : (
-                          <p>
-                            {textBlocks.artistDescriptionShort}
-                            <button 
-                              onClick={() => setIsExpanded(true)}
-                              className="text-blue-400 hover:text-blue-300 ml-1"
-                            >
-                              Read more
-                            </button>
-                          </p>
-                        )}
-                      </div>
-                    </div>
+                    ) : (
+                      <p>
+                        {textBlocks.artistDescriptionShort}
+                        <button
+                          onClick={() => setIsExpanded(true)}
+                          className="text-[hsl(var(--acid))] hover:text-[hsl(var(--acid-dim))] ml-1"
+                        >
+                          Read more
+                        </button>
+                      </p>
+                    )}
                   </div>
+                </div>
+                <div className={`${GeistMono.className} flex gap-3 mt-6`}>
+                  <Link
+                    href="/#songs"
+                    className="text-xs uppercase tracking-[0.14em] px-5 py-3 rounded-sm bg-[hsl(var(--acid))] text-black font-bold"
+                  >
+                    &#9654; Play latest
+                  </Link>
+                  <Link
+                    href="/#albums"
+                    className="text-xs uppercase tracking-[0.14em] px-5 py-3 rounded-sm border hairline text-white hover:border-[hsl(var(--acid))] hover:text-[hsl(var(--acid))] transition-colors"
+                  >
+                    View discography
+                  </Link>
                 </div>
               </div>
             </div>
@@ -167,18 +167,42 @@ export default function ArtistPage() {
 
           <div className="container mx-auto px-4">
             {/* Featured Song Section */}
-            <section id="songs" className="mb-12 pt-16 -mt-16">
-              <h2 className="text-2xl font-semibold mb-4 text-center text-white">Featured Songs</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 justify-items-center">
-                {songs.slice(0, 3).map((song) => ( // only show first 3 songs from list
-                  (<WLCard key={song.id} id={song.id} title={song.title} album={song.album} image={song.image} isPlaying={isPlaying} setPlaying={setPlaying} />)
+            <section id="songs" className="mb-16 pt-16 -mt-16">
+              <div className="flex items-baseline justify-between gap-4 mb-6 border-b hairline pb-4">
+                <div>
+                  <div className={`${GeistMono.className} eyebrow`}>Featured</div>
+                  <h2 className="text-2xl md:text-3xl font-extrabold uppercase tracking-wide mt-1">Songs</h2>
+                </div>
+                <div className={`${GeistMono.className} text-xs text-muted-foreground`}>
+                  {String(featuredSongs.length).padStart(2, "0")} tracks
+                </div>
+              </div>
+              <div>
+                {featuredSongs.map((song, i) => (
+                  <SCTrackRow
+                    key={song.url}
+                    index={i + 1}
+                    url={song.url}
+                    fallbackTitle={song.title}
+                    fallbackImage={song.image}
+                    isPlaying={isPlaying}
+                    setPlaying={setPlaying}
+                  />
                 ))}
               </div>
             </section>
 
             {/* Albums Section */}
-            <section id="albums" className="mb-12 pt-16 -mt-16">
-              <h2 className="text-2xl font-semibold mb-4 text-center text-white">Albums</h2>
+            <section id="albums" className="mb-16 pt-16 -mt-16">
+              <div className="flex items-baseline justify-between gap-4 mb-6 border-b hairline pb-4">
+                <div>
+                  <div className={`${GeistMono.className} eyebrow`}>Discography</div>
+                  <h2 className="text-2xl md:text-3xl font-extrabold uppercase tracking-wide mt-1">Albums</h2>
+                </div>
+                <div className={`${GeistMono.className} text-xs text-muted-foreground`}>
+                  {String(albums.length).padStart(2, "0")} releases
+                </div>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {albums.map((album) => (
                   <AlbumCard key={album.id} id={album.id} title={album.title} year={album.year} image={album.image} isPlaying={isPlaying} setPlaying={setPlaying} />
@@ -187,8 +211,16 @@ export default function ArtistPage() {
             </section>
 
             {/* YouTube Videos Section */}
-            <section id="videos" className="mb-12 pt-16 -mt-16">
-              <h2 className="text-2xl font-semibold mb-4 text-center text-white">Videos</h2>
+            <section id="videos" className="mb-16 pt-16 -mt-16">
+              <div className="flex items-baseline justify-between gap-4 mb-6 border-b hairline pb-4">
+                <div>
+                  <div className={`${GeistMono.className} eyebrow`}>Watch</div>
+                  <h2 className="text-2xl md:text-3xl font-extrabold uppercase tracking-wide mt-1">Videos</h2>
+                </div>
+                <div className={`${GeistMono.className} text-xs text-muted-foreground`}>
+                  {String(videos.length).padStart(2, "0")} uploads
+                </div>
+              </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {videos.map((video) => (
                   <YTCard key={video.id} id={video.id} title={video.title} album={video.album} isPlaying={isPlaying} setPlaying={setPlaying} />

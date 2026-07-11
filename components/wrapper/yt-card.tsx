@@ -1,14 +1,12 @@
 "use client"
 
 import Image from "next/legacy/image"
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { Play } from "lucide-react"
 
 export function YTCard({ id, title, album, isPlaying, setPlaying }: { id: string, title: string, album: string, isPlaying: string | null, setPlaying: (id: string) => void }) {
   return (
-    <Card key={id} className="overflow-hidden">
+    <div className="overflow-hidden rounded-sm border hairline bg-background/20 transition-colors hover:border-[hsl(var(--acid))]">
     <div className="relative pt-[56.25%]">
       {isPlaying === id ? (
         <iframe
@@ -27,8 +25,8 @@ export function YTCard({ id, title, album, isPlaying, setPlaying }: { id: string
             objectFit="cover"
           />
           <div className="absolute inset-0 flex items-center justify-center">
-            <Button 
-              variant="secondary" 
+            <Button
+              variant="secondary"
               size="icon"
               onClick={() => setPlaying(id)}
               aria-label="Play"
@@ -39,9 +37,9 @@ export function YTCard({ id, title, album, isPlaying, setPlaying }: { id: string
         </>
       )}
     </div>
-    <CardContent className="p-4">
-      <h3 className="font-semibold">{title}</h3>
-    </CardContent>
-    </Card>
-  )  
+    <div className="p-4">
+      <h3 className="font-semibold text-foreground">{title}</h3>
+    </div>
+    </div>
+  )
 }

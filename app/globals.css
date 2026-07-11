@@ -3,61 +3,65 @@
 @tailwind utilities;
 
 
+/* Palette: #47FFA3 (acid), #0F1108 (void), #EBF2FA (paper), #3066BE (info),
+   #FFCF56 (highlight). The site is always dark (no light/dark toggle in
+   use), so :root and .dark carry the same values — .dark is kept in sync
+   only so nothing regresses if theme switching is ever wired up. */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 100% 0%;
-    --border: 325 36% 24%;
-    --card: 325 36% 34%;
-    --card-foreground: 240 0% 90%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 76.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
+    --background: 73 36% 5%;
+    --foreground: 212 60% 95%;
+    --border: 75 18% 16%;
+    --card: 75 20% 8%;
+    --card-foreground: 212 60% 95%;
+    --popover: 75 20% 8%;
+    --popover-foreground: 212 60% 95%;
+    --primary: 150 100% 64%;
+    --primary-foreground: 73 36% 5%;
+    --secondary: 212 60% 95%;
+    --secondary-foreground: 73 36% 5%;
+    --muted: 75 15% 12%;
+    --muted-foreground: 212 25% 74%;
+    --accent: 217 30% 16%;
+    --accent-foreground: 212 60% 95%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 212 60% 95%;
+    --input: 75 18% 16%;
+    --ring: 150 100% 64%;
     --radius: 0.5rem;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+    --chart-1: 150 100% 64%;
+    --chart-2: 217 60% 47%;
+    --chart-3: 43 100% 67%;
+    --chart-4: 212 60% 95%;
+    --chart-5: 75 18% 40%;
 
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --background: 73 36% 5%;
+    --foreground: 212 60% 95%;
+    --card: 75 20% 8%;
+    --card-foreground: 212 60% 95%;
+    --popover: 75 20% 8%;
+    --popover-foreground: 212 60% 95%;
+    --primary: 150 100% 64%;
+    --primary-foreground: 73 36% 5%;
+    --secondary: 212 60% 95%;
+    --secondary-foreground: 73 36% 5%;
+    --muted: 75 15% 12%;
+    --muted-foreground: 212 25% 74%;
+    --accent: 217 30% 16%;
+    --accent-foreground: 212 60% 95%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 212 60% 95%;
+    --border: 75 18% 16%;
+    --input: 75 18% 16%;
+    --ring: 150 100% 64%;
+    --chart-1: 150 100% 64%;
+    --chart-2: 217 60% 47%;
+    --chart-3: 43 100% 67%;
+    --chart-4: 212 60% 95%;
+    --chart-5: 75 18% 40%;
 
   }
 }
@@ -69,4 +73,44 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Chrome-rave accent system: layered on top of the shadcn tokens above,
+   used by the header, hero and card components. Semantics: acid green =
+   primary action ("you can play this"), gold = currently-playing state,
+   blue = secondary/informational accents, paper = chrome + primary text. */
+:root {
+  --acid: 150 100% 64%;
+  --acid-dim: 150 65% 38%;
+  --info: 217 60% 47%;
+  --highlight: 43 100% 67%;
+  --chrome-1: 212 60% 95%;
+  --chrome-2: 217 60% 47%;
+  --chrome-3: 217 55% 20%;
+  --hairline: 212 60% 95% / 0.14;
+}
+
+.chrome-text {
+  background: linear-gradient(
+    180deg,
+    hsl(var(--chrome-1)) 0%,
+    hsl(var(--chrome-2)) 45%,
+    hsl(var(--chrome-3)) 55%,
+    hsl(var(--chrome-1)) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.6));
+}
+
+.eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: hsl(var(--acid));
+}
+
+.hairline {
+  border-color: hsl(var(--hairline));
 }
