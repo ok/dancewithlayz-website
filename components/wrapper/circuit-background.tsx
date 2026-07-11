@@ -3,10 +3,12 @@
 import { useEffect, useRef } from "react"
 
 // Frozen circuit-fractal shapes (derived from Shadertoy 3lyBWz) revealed by a
-// noise-driven pulsing glow (derived from Shadertoy ttVfzR). Neither the UV
-// nor the pattern is translated over time, so only the glow moves — no
-// scrolling/drifting. The glow field also masks the pattern's visibility, so
-// the board only surfaces where the pulse currently sits.
+// noise-driven pulsing glow (derived from Shadertoy ttVfzR). The pattern is
+// never translated by iTime, so it doesn't drift on its own — it only moves
+// in response to page scroll (uScrollY), so it reads as part of the page
+// rather than a viewport-pinned backdrop. The glow field also masks the
+// pattern's visibility, so the board only surfaces where the pulse currently
+// sits.
 const VERT_SRC = `
   attribute vec2 a_pos;
   void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }
@@ -18,6 +20,7 @@ const FRAG_SRC = `
   uniform vec2 iResolution;
   uniform float iTime;
   uniform vec2 uSeed;
+  uniform float uScrollY;
 
   vec3 c1 = vec3(2.0, 2.5, 1.4);
 
@@ -64,7 +67,11 @@ const FRAG_SRC = `
   }
 
   void main() {
-    vec2 fragCoord = gl_FragCoord.xy;
+    // Offsetting by the page's scroll position (instead of resizing the
+    // canvas to the full document height) makes the pattern scroll with the
+    // page while keeping the render cost pinned to one viewport's worth of
+    // pixels.
+    vec2 fragCoord = gl_FragCoord.xy - vec2(0.0, uScrollY);
 
     // Tuned constants (locked in from the approved demo).
     float uSpeed = 0.1;
@@ -171,6 +178,7 @@ export function CircuitBackground() {
     const iResolution = gl.getUniformLocation(program, "iResolution")
     const iTime = gl.getUniformLocation(program, "iTime")
     const uSeed = gl.getUniformLocation(program, "uSeed")
+    const uScrollY = gl.getUniformLocation(program, "uScrollY")
 
     // Fresh circuit layout every page load.
     const seed: [number, number] = [Math.random() * 20 - 10, Math.random() * 20 - 10]
@@ -191,9 +199,11 @@ export function CircuitBackground() {
     function frame(now: number) {
       if (!gl || !canvas) return
       const t = (now - start) / 1000
+      const dpr = Math.min(window.devicePixelRatio || 1, 2)
       gl.uniform2f(iResolution, canvas.width, canvas.height)
       gl.uniform1f(iTime, t)
       gl.uniform2f(uSeed, seed[0], seed[1])
+      gl.uniform1f(uScrollY, window.scrollY * dpr)
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
       frameId = requestAnimationFrame(frame)
     }
