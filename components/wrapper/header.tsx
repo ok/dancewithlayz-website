@@ -1,16 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet"
-import { Menu } from "lucide-react"
 import { Icons } from "@/components/Icons"
 import { GeistMono } from "geist/font/mono"
 import { SCCompactPlayer } from "@/components/wrapper/sc-player"
@@ -72,12 +63,10 @@ type SocialLink = {
   ];
   
 export function Header() {
-  const [isOpen, setIsOpen] = useState(false)
-
   return (
     <header className="sticky top-0 z-20 border-b hairline bg-background/70 backdrop-blur-md">
       <div className="container relative mx-auto px-4 py-2.5 flex justify-between items-center">
-        <div className="flex items-center lg:space-x-2 md:space-x-0">
+        <div className="flex items-center lg:space-x-2 md:space-x-0 flex-1 min-w-0 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {socialLinks.map((link) => (
             <Link key={link.name} href={link.url} passHref target="_blank">
               <Button className="p-2 bg-transparent hover:bg-transparent group" size="icon">
@@ -107,34 +96,14 @@ export function Header() {
             Videos
           </Link>
         </nav>
-        <div className="md:hidden">
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <Button className="p-2 bg-transparent hover:bg-transparent" size="icon">
-                <Menu className="h-6 w-6 stroke-white" />
-                <span className="sr-only">Open menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent className="bg-background/90 backdrop-blur-md text-white hairline">
-              <SheetHeader>
-                <SheetTitle className="pt-8 chrome-text uppercase tracking-wide">Lay&apos;z</SheetTitle>
-              </SheetHeader>
-              <div className={`mt-4 space-y-4 ${GeistMono.className}`}>
-                <Link href="/" onClick={() => setIsOpen(false)} className="block text-sm uppercase tracking-[0.14em] text-white hover:text-[hsl(var(--acid))]">
-                  Home
-                </Link>
-                <Link href="/#songs" onClick={() => setIsOpen(false)} className="block text-sm uppercase tracking-[0.14em] text-white hover:text-[hsl(var(--acid))]">
-                  Songs
-                </Link>
-                <Link href="/#albums" onClick={() => setIsOpen(false)} className="block text-sm uppercase tracking-[0.14em] text-white hover:text-[hsl(var(--acid))]">
-                  Albums
-                </Link>
-                <Link href="/#videos" onClick={() => setIsOpen(false)} className="block text-sm uppercase tracking-[0.14em] text-white hover:text-[hsl(var(--acid))]">
-                  Videos
-                </Link>
-              </div>
-            </SheetContent>
-          </Sheet>
+        <div className="flex md:hidden items-center gap-2 flex-shrink-0 pl-2">
+          <Link href="/" className="flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-[hsl(var(--acid))] shadow-[0_0_10px_hsl(var(--acid)),0_0_20px_hsl(var(--acid))]" />
+            <span className="chrome-text text-base font-extrabold uppercase tracking-wide">
+              Lay&apos;z
+            </span>
+          </Link>
+          <SCCompactPlayer url={introTrackUrl} label="Intro" />
         </div>
       </div>
     </header>

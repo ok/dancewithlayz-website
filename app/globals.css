@@ -114,3 +114,51 @@
 .hairline {
   border-color: hsl(var(--hairline));
 }
+
+/* Hero "porthole": frames the existing banner art like cockpit glass rather
+   than a flat full-bleed image. Starfield and glint are screen-blended so
+   they only ever add light — they never muddy the photo underneath. */
+.hero-viewport {
+  box-shadow:
+    0 0 0 6px hsl(var(--background)),
+    0 0 0 7px hsl(var(--acid) / 0.25),
+    0 0 60px -14px hsl(var(--acid) / 0.3);
+}
+
+.starfield {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 36% 10%, hsl(var(--chrome-1)), transparent),
+    radial-gradient(1px 1px at 58% 7%, #fff, transparent),
+    radial-gradient(1px 1px at 78% 22%, hsl(var(--info)), transparent),
+    radial-gradient(1.5px 1.5px at 91% 14%, #fff, transparent),
+    radial-gradient(1px 1px at 23% 30%, hsl(var(--chrome-1)), transparent),
+    radial-gradient(1px 1px at 68% 28%, #fff, transparent),
+    radial-gradient(1.5px 1.5px at 6% 40%, hsl(var(--info)), transparent),
+    radial-gradient(1px 1px at 95% 36%, #fff, transparent);
+  animation: twinkle 4.5s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+  from { opacity: 0.4; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .starfield {
+    animation: none;
+    opacity: 0.7;
+  }
+}
+
+.glass-glint {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background: linear-gradient(115deg, transparent 42%, hsl(var(--acid) / 0.08) 47%, transparent 53%);
+}
