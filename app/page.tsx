@@ -62,7 +62,6 @@ const introTrackUrl = "https://soundcloud.com/dancewithlayz/human-in-a-loop-intr
 
 export default function ArtistPage() {
   const [currentSection, setCurrentSection] = useState("Home")
-  const [isPlaying, setPlaying] = useState<string | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
   useEffect(() => {
@@ -90,11 +89,12 @@ export default function ArtistPage() {
               className="hero-viewport relative w-full h-[70vh] overflow-hidden"
               style={{ borderRadius: "clamp(28px, 9vw, 140px) clamp(28px, 9vw, 140px) 0.5rem 0.5rem" }}
             >
+              <div className="absolute inset-0 bg-background" />
               <Image
-                src="/banner-layz.webp?height=1080&width=1920"
+                src="/layz-logo.png"
                 alt="Artist Name"
                 layout="fill"
-                objectFit="cover"
+                objectFit="contain"
                 priority
               />
               <div className="starfield" aria-hidden="true" />
@@ -176,8 +176,6 @@ export default function ArtistPage() {
                     index={i + 1}
                     url={song.url}
                     fallbackTitle={song.title}
-                    isPlaying={isPlaying}
-                    setPlaying={setPlaying}
                   />
                 ))}
               </div>
@@ -207,7 +205,7 @@ export default function ArtistPage() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {videos.map((video) => (
-                  <YTCard key={video.id} id={video.id} title={video.title} album={video.album} isPlaying={isPlaying} setPlaying={setPlaying} />
+                  <YTCard key={video.id} id={video.id} title={video.title} album={video.album} />
                 ))}
               </div>
             </section>

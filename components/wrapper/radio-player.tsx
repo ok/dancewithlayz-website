@@ -4,10 +4,51 @@ import { useEffect, useRef, useState } from "react"
 import { GeistMono } from "geist/font/mono"
 import { Play, Pause, Volume2 } from "lucide-react"
 import { useGlobalVolume } from "@/components/wrapper/volume-context"
+import { usePlayback } from "@/components/wrapper/playback-context"
+
+const RADIO_ID = "radio"
 
 // Direct Icecast/AzuraCast mount for the 24/7 "Dance with Lay'z" radio,
 // found via the public player at y0br0.gotdns.ch/public/dancewithlayz.
 const STREAM_URL = "https://y0br0.gotdns.ch/listen/dancewithlayz/compatibility"
+
+// AzuraCast's REST nowplaying API 401s from outside its own frontend, but the
+// Centrifugo SSE feed the public player itself uses is open — same data, no auth.
+const NOWPLAYING_SSE_URL =
+  "https://y0br0.gotdns.ch/api/live/nowplaying/sse?cf_connect=" +
+  encodeURIComponent(JSON.stringify({ subs: { "station:dancewithlayz": { recover: true } } }))
+
+type NowPlaying = { artist: string; title: string; art?: string }
+
+// Centrifugo sends the initial snapshot nested under connect.subs[...].publications[0],
+// then later updates nested under push.pub — both carry the same { np: { now_playing } } shape.
+function extractNowPlaying(payload: any): NowPlaying | null {
+  const np =
+    payload?.connect?.subs?.["station:dancewithlayz"]?.publications?.[0]?.data?.np ??
+    payload?.push?.pub?.data?.np
+  const song = np?.now_playing?.song
+  if (!song?.title) return null
+  return { artist: song.artist, title: song.title, art: song.art }
+}
+
+function useNowPlaying() {
+  const [nowPlaying, setNowPlaying] = useState<NowPlaying | null>(null)
+
+  useEffect(() => {
+    const source = new EventSource(NOWPLAYING_SSE_URL)
+    source.onmessage = (event) => {
+      try {
+        const parsed = extractNowPlaying(JSON.parse(event.data))
+        if (parsed) setNowPlaying(parsed)
+      } catch {
+        // ignore malformed/heartbeat frames
+      }
+    }
+    return () => source.close()
+  }, [])
+
+  return nowPlaying
+}
 
 export function RadioPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null)
@@ -16,6 +57,8 @@ export function RadioPlayer() {
   const [hovering, setHovering] = useState(false)
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const { volume, setVolume } = useGlobalVolume()
+  const { activeId, requestPlay } = usePlayback()
+  const nowPlaying = useNowPlaying()
 
   const showVolume = () => {
     if (hideTimeoutRef.current) clearTimeout(hideTimeoutRef.current)
@@ -70,11 +113,53 @@ export function RadioPlayer() {
       setPlaying(false)
       setLoading(false)
     } else {
+      requestPlay(RADIO_ID)
       setLoading(true)
       audio.src = STREAM_URL
       audio.play().catch(() => setLoading(false))
     }
   }
+
+  // Site-wide exclusivity: as soon as some other player claims playback,
+  // stop the stream instead of letting it keep playing underneath.
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio || activeId === RADIO_ID) return
+    if (!playing) return
+    audio.pause()
+    audio.removeAttribute("src")
+    audio.load()
+    setPlaying(false)
+    setLoading(false)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeId])
+
+  // Drives the OS/lock-screen/tab-switcher media notification while the page
+  // is backgrounded — without this, switching apps shows no track info at all.
+  useEffect(() => {
+    if (!("mediaSession" in navigator)) return
+    if (!playing) {
+      navigator.mediaSession.metadata = null
+      navigator.mediaSession.playbackState = "none"
+      return
+    }
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: nowPlaying?.title ?? "Lay'z Radio",
+      artist: nowPlaying?.artist ?? "Dance with Lay'z — 24/7 stream",
+      artwork: nowPlaying?.art ? [{ src: nowPlaying.art, sizes: "512x512", type: "image/jpeg" }] : [],
+    })
+    navigator.mediaSession.playbackState = "playing"
+  }, [playing, nowPlaying])
+
+  useEffect(() => {
+    if (!("mediaSession" in navigator)) return
+    navigator.mediaSession.setActionHandler("play", toggle)
+    navigator.mediaSession.setActionHandler("pause", toggle)
+    return () => {
+      navigator.mediaSession.setActionHandler("play", null)
+      navigator.mediaSession.setActionHandler("pause", null)
+    }
+  })
 
   return (
     <div
@@ -122,19 +207,27 @@ export function RadioPlayer() {
             <Play className="h-6 w-6 relative" />
           )}
         </button>
-        <div className="flex flex-col leading-tight">
-          <span className={`${GeistMono.className} text-sm uppercase tracking-[0.14em] text-foreground font-bold`}>
-            Lay&apos;z Radio
+        <div className="flex flex-col leading-tight max-w-[220px]">
+          <span className={`${GeistMono.className} text-sm uppercase tracking-[0.14em] text-foreground font-bold truncate`}>
+            {playing && nowPlaying ? nowPlaying.title : "Lay'z Radio"}
           </span>
-          <span className={`${GeistMono.className} flex items-center gap-1.5 text-xs uppercase tracking-[0.1em] text-muted-foreground`}>
+          <span className={`${GeistMono.className} flex items-center gap-1.5 text-xs uppercase tracking-[0.1em] text-muted-foreground truncate`}>
             <span
-              className="h-2 w-2 rounded-full transition-colors"
+              className="h-2 w-2 rounded-full transition-colors flex-shrink-0"
               style={{
                 backgroundColor: playing ? "hsl(var(--highlight))" : "hsl(var(--acid-dim))",
                 boxShadow: playing ? "0 0 6px hsl(var(--highlight))" : undefined,
               }}
             />
-            {loading ? "Connecting" : playing ? "On air" : "24/7 stream"}
+            <span className="truncate">
+              {loading
+                ? "Connecting"
+                : playing && nowPlaying
+                  ? nowPlaying.artist
+                  : playing
+                    ? "On air"
+                    : "24/7 stream"}
+            </span>
           </span>
         </div>
         <audio ref={audioRef} preload="none" />

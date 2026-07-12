@@ -7,6 +7,7 @@ import { Header } from '@/components/wrapper/header'
 import { CircuitBackground } from '@/components/wrapper/circuit-background'
 import { RadioPlayer } from '@/components/wrapper/radio-player'
 import { VolumeProvider } from '@/components/wrapper/volume-context'
+import { PlaybackProvider } from '@/components/wrapper/playback-context'
 import { GeistMono } from 'geist/font/mono'
 
 export const metadata: Metadata = {
@@ -54,26 +55,28 @@ export default function RootLayout({
       <body className={GeistSans.className}>
         <Provider>
           <VolumeProvider>
-            <div className="min-h-screen flex flex-col relative">
-              {/* Pulsating circuit-board background */}
-              <CircuitBackground />
+            <PlaybackProvider>
+              <div className="min-h-screen flex flex-col relative">
+                {/* Pulsating circuit-board background */}
+                <CircuitBackground />
 
-              {/* Content Wrapper */}
-              <div className="relative z-10 flex flex-col min-h-screen">
-                <Header />
-                <main className="flex-grow">
-                  {children}
-                </main>
-                <footer className="border-t hairline bg-background/20 backdrop-blur-sm py-5">
-                  <div className={`${GeistMono.className} container mx-auto px-4 flex flex-col sm:flex-row justify-between gap-2 text-xs uppercase tracking-[0.1em] text-white/75`}>
-                    <span>&copy; {new Date().getFullYear()} Dance with Lay&apos;z</span>
-                    <span>All rights reserved</span>
-                  </div>
-                </footer>
+                {/* Content Wrapper */}
+                <div className="relative z-10 flex flex-col min-h-screen">
+                  <Header />
+                  <main className="flex-grow">
+                    {children}
+                  </main>
+                  <footer className="border-t hairline bg-background/20 backdrop-blur-sm py-5">
+                    <div className={`${GeistMono.className} container mx-auto px-4 flex flex-col sm:flex-row justify-between gap-2 text-xs uppercase tracking-[0.1em] text-white/75`}>
+                      <span>&copy; {new Date().getFullYear()} Dance with Lay&apos;z</span>
+                      <span>All rights reserved</span>
+                    </div>
+                  </footer>
+                </div>
               </div>
-            </div>
-            <RadioPlayer />
-            <Toaster />
+              <RadioPlayer />
+              <Toaster />
+            </PlaybackProvider>
           </VolumeProvider>
         </Provider>
       </body>

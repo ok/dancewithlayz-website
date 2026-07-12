@@ -3,12 +3,14 @@
 import Image from "next/legacy/image"
 import { Button } from "@/components/ui/button"
 import { Play } from "lucide-react"
+import { usePlayback } from "@/components/wrapper/playback-context"
 
-export function YTCard({ id, title, album, isPlaying, setPlaying }: { id: string, title: string, album: string, isPlaying: string | null, setPlaying: (id: string) => void }) {
+export function YTCard({ id, title, album }: { id: string, title: string, album: string }) {
+  const { activeId, requestPlay } = usePlayback()
   return (
     <div className="overflow-hidden rounded-sm border hairline bg-background/20 transition-colors hover:border-[hsl(var(--acid))]">
     <div className="relative pt-[56.25%]">
-      {isPlaying === id ? (
+      {activeId === id ? (
         <iframe
           className="absolute inset-0 w-full h-full"
           src={`https://www.youtube.com/embed/${id}?autoplay=1`}
@@ -28,7 +30,7 @@ export function YTCard({ id, title, album, isPlaying, setPlaying }: { id: string
             <Button
               variant="secondary"
               size="icon"
-              onClick={() => setPlaying(id)}
+              onClick={() => requestPlay(id)}
               aria-label="Play"
             >
               <Play className="h-8 w-8" />

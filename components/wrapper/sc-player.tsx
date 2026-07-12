@@ -5,6 +5,7 @@ import { GeistMono } from "geist/font/mono"
 import { Play, Pause, Volume2 } from "lucide-react"
 import { loadSoundCloudWidgetApi, soundcloudEmbedUrl, formatTime } from "@/utils/soundcloud"
 import { useGlobalVolume } from "@/components/wrapper/volume-context"
+import { usePlayback } from "@/components/wrapper/playback-context"
 
 type SoundInfo = {
   title: string
@@ -13,6 +14,7 @@ type SoundInfo = {
 
 function useSoundCloudWidget(url: string) {
   const { volume } = useGlobalVolume()
+  const { activeId, requestPlay } = usePlayback()
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const widgetRef = useRef<any>(null)
   const [ready, setReady] = useState(false)
@@ -69,11 +71,21 @@ function useSoundCloudWidget(url: string) {
     widgetRef.current?.setVolume(volume)
   }, [volume])
 
+  // Site-wide exclusivity: once some other player claims playback, stop.
+  useEffect(() => {
+    if (activeId !== url && playing) widgetRef.current?.pause()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeId])
+
   const toggle = () => {
     const widget = widgetRef.current
     if (!widget) return
-    if (playing) widget.pause()
-    else widget.play()
+    if (playing) {
+      widget.pause()
+    } else {
+      requestPlay(url)
+      widget.play()
+    }
   }
 
   const pause = () => widgetRef.current?.pause()
@@ -86,6 +98,7 @@ function useSoundCloudWidget(url: string) {
   const seekTo = (fraction: number) => {
     const widget = widgetRef.current
     if (!widget || !duration) return
+    requestPlay(url)
     widget.seekTo(fraction * duration)
     widget.play()
   }
@@ -139,34 +152,12 @@ export function SCTrackRow({
   url,
   index,
   fallbackTitle,
-  isPlaying,
-  setPlaying,
 }: {
   url: string
   index: number
   fallbackTitle: string
-  isPlaying: string | null
-  setPlaying: (id: string) => void
 }) {
-  const { iframeRef, playing, progress, duration, position, sound, toggle, pause, seekTo } = useSoundCloudWidget(url)
-
-  useEffect(() => {
-    if (isPlaying !== url && playing) pause()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPlaying])
-
-  const handleToggle = () => {
-    setPlaying(url)
-    toggle()
-  }
-
-  // Waveform seeks need the row to also claim page-level "now playing"
-  // status — otherwise the pause-on-mismatch effect above immediately
-  // pauses this row again since `isPlaying` still points at a different url.
-  const handleSeek = (fraction: number) => {
-    setPlaying(url)
-    seekTo(fraction)
-  }
+  const { iframeRef, playing, progress, duration, position, sound, toggle, seekTo } = useSoundCloudWidget(url)
 
   const title = sound?.title || fallbackTitle
 
@@ -179,7 +170,7 @@ export function SCTrackRow({
         >
           {String(index).padStart(2, "0")}
         </span>
-        <button onClick={handleToggle} className="flex items-baseline gap-3 min-w-0 text-left">
+        <button onClick={toggle} className="flex items-baseline gap-3 min-w-0 text-left">
           <span className="font-semibold truncate text-foreground">{title}</span>
           <span className={`${GeistMono.className} text-xs text-muted-foreground flex-shrink-0`}>
             {formatTime(position)} / {formatTime(duration)}
@@ -188,7 +179,7 @@ export function SCTrackRow({
         <div className="flex items-center gap-3 flex-shrink-0">
           {playing && <VolumeSlider className="w-14" />}
           <button
-            onClick={handleToggle}
+            onClick={toggle}
             aria-label={playing ? "Pause" : "Play"}
             className="h-8 w-8 rounded-full border hairline flex items-center justify-center flex-shrink-0 transition-colors group-hover:border-[hsl(var(--acid))] group-hover:text-[hsl(var(--acid))]"
             style={playing ? { borderColor: "hsl(var(--highlight))", color: "hsl(var(--highlight))" } : undefined}
@@ -197,7 +188,7 @@ export function SCTrackRow({
           </button>
         </div>
       </div>
-      <Waveform seed={title} progress={progress} active={playing} onSeek={handleSeek} heightClassName="h-8" />
+      <Waveform seed={title} progress={progress} active={playing} onSeek={seekTo} heightClassName="h-8" />
       <HiddenWidgetFrame url={url} iframeRef={iframeRef} />
     </div>
   )
@@ -212,6 +203,7 @@ type PlaylistSound = {
 
 function usePlaylistWidget(url: string) {
   const { volume } = useGlobalVolume()
+  const { activeId, requestPlay } = usePlayback()
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const widgetRef = useRef<any>(null)
   const [sounds, setSounds] = useState<PlaylistSound[]>([])
@@ -275,9 +267,16 @@ function usePlaylistWidget(url: string) {
     widgetRef.current?.setVolume(volume)
   }, [volume])
 
+  // Site-wide exclusivity: once some other player claims playback, stop.
+  useEffect(() => {
+    if (activeId !== url && playing) widgetRef.current?.pause()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeId])
+
   const playIndex = (i: number) => {
     const widget = widgetRef.current
     if (!widget) return
+    requestPlay(url)
     if (currentIndex === i) {
       if (playing) widget.pause()
       else widget.play()
@@ -296,6 +295,7 @@ function usePlaylistWidget(url: string) {
   const playFromStart = (i: number) => {
     const widget = widgetRef.current
     if (!widget) return
+    requestPlay(url)
     if (currentIndex !== i) {
       widget.skip(i)
       setCurrentIndex(i)
@@ -312,6 +312,7 @@ function usePlaylistWidget(url: string) {
   const seekTo = (fraction: number) => {
     const widget = widgetRef.current
     if (!widget || !duration) return
+    requestPlay(url)
     widget.seekTo(fraction * duration)
   }
 
