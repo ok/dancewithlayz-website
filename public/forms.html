@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Form detection</title>
+  </head>
+  <body>
+    <!--
+      Netlify's build bot scans static HTML for forms with data-netlify="true"
+      to register them for submission handling. The real contact form lives in
+      components/wrapper/contact-form.tsx and is rendered client-side by React,
+      which Netlify's bot can't crawl — so this stub mirrors its exact field
+      names to get the "contact" form registered. This page is never linked to
+      or shown to visitors.
+    -->
+    <form name="contact" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <textarea name="message"></textarea>
+      <input type="text" name="bot-field" />
+    </form>
+  </body>
+</html>

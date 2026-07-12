@@ -5,6 +5,7 @@ import { useState, useEffect } from "react"
 import { GeistMono } from "geist/font/mono"
 import { YTCard } from "@/components/wrapper/yt-card"
 import { SCTrackRow, SCCompactPlayer, SCPlaylistPlayer } from "@/components/wrapper/sc-player"
+import { ContactForm } from "@/components/wrapper/contact-form"
 import { displayFont } from "@/lib/fonts"
 
 type TextBlocks = {
@@ -208,6 +209,17 @@ export default function ArtistPage() {
                   <YTCard key={video.id} id={video.id} title={video.title} album={video.album} />
                 ))}
               </div>
+            </section>
+
+            {/* Contact Section */}
+            <section id="contact" className="mb-16 pt-16 -mt-16">
+              <div className="flex items-baseline justify-between gap-4 mb-6 border-b hairline pb-4">
+                <div>
+                  <div className={`${GeistMono.className} eyebrow`}>Get in touch</div>
+                  <h2 className="text-2xl md:text-3xl font-extrabold uppercase tracking-wide mt-1">Contact</h2>
+                </div>
+              </div>
+              <ContactForm />
             </section>
           </div>
         </main>
