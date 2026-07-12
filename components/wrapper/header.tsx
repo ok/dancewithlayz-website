@@ -4,9 +4,6 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/Icons"
 import { GeistMono } from "geist/font/mono"
-import { SCCompactPlayer } from "@/components/wrapper/sc-player"
-
-const introTrackUrl = "https://soundcloud.com/dancewithlayz/human-in-a-loop-intro"
 
 // Define a type for our social media link configuration
 type SocialLink = {
@@ -76,15 +73,6 @@ export function Header() {
             </Link>
           ))}
         </div>
-        <div className="hidden md:flex items-center gap-3 absolute left-1/2 transform -translate-x-1/2">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-[hsl(var(--acid))] shadow-[0_0_10px_hsl(var(--acid)),0_0_20px_hsl(var(--acid))]" />
-            <span className="chrome-text text-lg font-extrabold uppercase tracking-wide">
-              Lay&apos;z
-            </span>
-          </Link>
-          <SCCompactPlayer url={introTrackUrl} label="Intro" />
-        </div>
         <nav className={`hidden md:flex md:space-x-6 ${GeistMono.className}`}>
           <Link href="/#songs" className="text-xs uppercase tracking-[0.14em] text-white/70 hover:text-white transition-colors">
             Songs
@@ -96,15 +84,6 @@ export function Header() {
             Videos
           </Link>
         </nav>
-        <div className="flex md:hidden items-center gap-2 flex-shrink-0 pl-2">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-[hsl(var(--acid))] shadow-[0_0_10px_hsl(var(--acid)),0_0_20px_hsl(var(--acid))]" />
-            <span className="chrome-text text-base font-extrabold uppercase tracking-wide">
-              Lay&apos;z
-            </span>
-          </Link>
-          <SCCompactPlayer url={introTrackUrl} label="Intro" />
-        </div>
       </div>
     </header>
   )

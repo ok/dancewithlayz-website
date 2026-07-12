@@ -66,6 +66,29 @@ const FRAG_SRC = `
     return value / tscale;
   }
 
+  // Folds uv through the circuit fractal and returns its raw (unsharpened)
+  // coverage value.
+  float circuitFold(vec2 uvIn) {
+    vec3 col = vec3(0.0);
+    vec2 uv = uvIn;
+    float offset = 0.16;
+    float scale2 = 1.05;
+
+    for (int c = 0; c < 3; c++) {
+      float scale = c1.z;
+      for (int i = 0; i < 9; i++) {
+        uv = triangle_wave(uv + offset, scale) + triangle_wave(uv.yx, scale);
+        uv = triangle_wave(uv + col.xy, scale);
+        scale /= scale2 + col.x;
+        offset *= scale2;
+        uv.y /= -1.0;
+      }
+      col[c] = fract(uv.x - uv.y);
+    }
+
+    return clamp(col.g + col.b * 0.4, 0.0, 1.0);
+  }
+
   void main() {
     // Offsetting by the page's scroll position (instead of resizing the
     // canvas to the full document height) makes the pattern scroll with the
@@ -84,29 +107,23 @@ const FRAG_SRC = `
     // Static camera: uv is NOT translated by iTime, so the fractal never drifts.
     vec2 uvBase = (fragCoord - iResolution.xy) / iResolution.y / uZoom / 2.0;
 
-    vec3 col = vec3(0.0);
-    vec2 uv = uvBase;
-    float offset = 0.16;
-    float scale2 = 1.05;
+    float m = circuitFold(uvBase);
 
-    for (int c = 0; c < 3; c++) {
-      float scale = c1.z;
-      for (int i = 0; i < 9; i++) {
-        uv = triangle_wave(uv + offset, scale) + triangle_wave(uv.yx, scale);
-        uv = triangle_wave(uv + col.xy, scale);
-        scale /= scale2 + col.x;
-        offset *= scale2;
-        uv.y /= -1.0;
-      }
-      col[c] = fract(uv.x - uv.y);
-    }
+    // The fractal fold has hard edges at every level of recursion, so it
+    // aliases wherever it changes faster than the screen can resolve
+    // (reads as "pixelated"). True supersampling is too expensive here (it
+    // would re-run the whole 27-iteration fold per sub-sample), so instead
+    // fade contrast-boosted areas toward flat mid-grey in proportion to
+    // their screen-space derivative — a cheap mip-style anti-alias that
+    // only touches the under-sampled (fast-changing) regions.
+    float aa = clamp(fwidth(m) * 2.0, 0.0, 1.0);
+    float mFiltered = mix(m, 0.5, aa);
 
     // Breathing brightness field: 3D noise walked along iTime. It only
     // modulates intensity, never the shapes' position.
     float breathe = pow(1.0 - hnoise(vec3(uvBase * uGlowScale, iTime * uSpeed), 1.0), uDepth) * 2.2;
 
-    float m = clamp(col.g + col.b * 0.4, 0.0, 1.0);
-    float mask = pow(m, uGlowContrast);
+    float mask = pow(mFiltered, uGlowContrast);
 
     vec3 acid = vec3(0.22, 0.62, 0.4);
 
