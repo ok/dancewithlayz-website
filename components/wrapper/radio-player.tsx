@@ -144,7 +144,7 @@ export function RadioPlayer() {
       return
     }
     navigator.mediaSession.metadata = new MediaMetadata({
-      title: nowPlaying?.title ?? "Lay'z Radio",
+      title: nowPlaying?.title ?? "Lay'z Live",
       artist: nowPlaying?.artist ?? "Dance with Lay'z — 24/7 stream",
       artwork: nowPlaying?.art ? [{ src: nowPlaying.art, sizes: "512x512", type: "image/jpeg" }] : [],
     })
@@ -192,7 +192,7 @@ export function RadioPlayer() {
       >
         <button
           onClick={toggle}
-          aria-label={playing ? "Pause Lay'z Radio" : "Play Lay'z Radio"}
+          aria-label={playing ? "Pause Lay'z Live" : "Play Lay'z Live"}
           className="relative flex items-center justify-center h-14 w-14 rounded-full border hairline flex-shrink-0 transition-colors"
           style={playing ? { borderColor: "hsl(var(--highlight))", color: "hsl(var(--highlight))" } : undefined}
         >
@@ -209,7 +209,7 @@ export function RadioPlayer() {
         </button>
         <div className="flex flex-col leading-tight max-w-[220px]">
           <span className={`${GeistMono.className} text-sm uppercase tracking-[0.14em] text-foreground font-bold truncate`}>
-            {playing && nowPlaying ? nowPlaying.title : "Lay'z Radio"}
+            {playing && nowPlaying ? nowPlaying.title : "Lay'z Live"}
           </span>
           <span className={`${GeistMono.className} flex items-center gap-1.5 text-xs uppercase tracking-[0.1em] text-muted-foreground truncate`}>
             <span

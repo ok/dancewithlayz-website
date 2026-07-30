@@ -159,7 +159,7 @@ export default function ArtistPage() {
           </div>
 
           <div className="container mx-auto px-4">
-            {/* Featured Song Section */}
+            {/* Featured Song Section — disabled
             <section id="songs" className="mb-16 pt-16 -mt-16">
               <div className="flex items-baseline justify-between gap-4 mb-6 border-b hairline pb-4">
                 <div>
@@ -181,8 +181,9 @@ export default function ArtistPage() {
                 ))}
               </div>
             </section>
+            */}
 
-            {/* Albums Section */}
+            {/* Albums Section — disabled
             <section id="albums" className="mb-16 pt-16 -mt-16">
               <div className="flex items-baseline justify-between gap-4 mb-6 border-b hairline pb-4">
                 <div>
@@ -192,6 +193,7 @@ export default function ArtistPage() {
               </div>
               <SCPlaylistPlayer url={albumPlaylistUrl} />
             </section>
+            */}
 
             {/* YouTube Videos Section */}
             <section id="videos" className="mb-16 pt-16 -mt-16">

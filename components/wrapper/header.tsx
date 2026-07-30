@@ -74,12 +74,16 @@ export function Header() {
           ))}
         </div>
         <nav className={`hidden md:flex md:space-x-6 ${GeistMono.className}`}>
+          {/* Songs section disabled
           <Link href="/#songs" className="text-xs uppercase tracking-[0.14em] text-white/70 hover:text-white transition-colors">
             Songs
           </Link>
+          */}
+          {/* Albums section disabled
           <Link href="/#albums" className="text-xs uppercase tracking-[0.14em] text-white/70 hover:text-white transition-colors">
             Albums
           </Link>
+          */}
           <Link href="/#videos" className="text-xs uppercase tracking-[0.14em] text-white/70 hover:text-white transition-colors">
             Videos
           </Link>
