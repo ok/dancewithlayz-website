@@ -13,7 +13,7 @@ export function YTCard({ id, title, album }: { id: string, title: string, album:
       {activeId === id ? (
         <iframe
           className="absolute inset-0 w-full h-full"
-          src={`https://www.youtube.com/embed/${id}?autoplay=1`}
+          src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&color=white&playsinline=1`}
           title={title}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen

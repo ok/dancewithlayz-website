@@ -46,8 +46,33 @@ type Video = {
 // Define an array of YouTube video configurations
 const videos: Video[] = [
   {
-    id: "mOdXes5D904",
-    title: "DJ'Z Heat",
+    id: "9vFko2vCiL8",
+    title: "Can't Stop - Lay'z x m3gatron",
+    album: "n/a",
+  },
+  {
+    id: "y822gySolaE",
+    title: "Drop It Down - Lay'z x m3gatron",
+    album: "n/a",
+  },
+  {
+    id: "e3z_dRIuZWY",
+    title: "17. Dezember 2024",
+    album: "n/a",
+  },
+  {
+    id: "PLdt5FzhY2k",
+    title: "17. Dezember 2024",
+    album: "n/a",
+  },
+  {
+    id: "PJVZ26frif8",
+    title: "17. Dezember 2024",
+    album: "n/a",
+  },
+  {
+    id: "2G7mNjxGLbc",
+    title: "17. Dezember 2024",
     album: "n/a",
   },
   {
