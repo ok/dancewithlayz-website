@@ -25,7 +25,17 @@ const textBlocks = {
     "After countless nights buried in the studio chasing the perfect groove, Lay'z decided one thing wasn't up for debate: this music was going to move people...",
 }
 
-const albumPlaylistUrl = "https://soundcloud.com/dancewithlayz/sets/human-in-a-loop";
+type Album = {
+  url: string;
+  title: string;
+};
+
+const albums: Album[] = [
+  { url: "https://soundcloud.com/dancewithlayz/sets/aluminium-foil", title: "Aluminium Foil" },
+  { url: "https://soundcloud.com/dancewithlayz/sets/volt", title: "Volt" },
+  { url: "https://soundcloud.com/dancewithlayz/sets/drop-it-down", title: "Drop It Down" },
+  { url: "https://soundcloud.com/dancewithlayz/sets/echo", title: "Echo" },
+];
 
 type Video = {
   id: string;
@@ -183,17 +193,28 @@ export default function ArtistPage() {
             </section>
             */}
 
-            {/* Albums Section — disabled
+            {/* Albums Section */}
             <section id="albums" className="mb-16 pt-16 -mt-16">
               <div className="flex items-baseline justify-between gap-4 mb-6 border-b hairline pb-4">
                 <div>
                   <div className={`${GeistMono.className} eyebrow`}>Discography</div>
                   <h2 className="text-2xl md:text-3xl font-extrabold uppercase tracking-wide mt-1">Albums</h2>
                 </div>
+                <div className={`${GeistMono.className} text-xs text-muted-foreground`}>
+                  {String(albums.length).padStart(2, "0")} releases
+                </div>
               </div>
-              <SCPlaylistPlayer url={albumPlaylistUrl} />
+              <div className="space-y-12">
+                {albums.map((album) => (
+                  <div key={album.url}>
+                    <h3 className={`${GeistMono.className} text-sm uppercase tracking-[0.14em] text-foreground/85 mb-4`}>
+                      {album.title}
+                    </h3>
+                    <SCPlaylistPlayer url={album.url} />
+                  </div>
+                ))}
+              </div>
             </section>
-            */}
 
             {/* YouTube Videos Section */}
             <section id="videos" className="mb-16 pt-16 -mt-16">
