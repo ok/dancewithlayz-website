@@ -17,6 +17,9 @@ function useSoundCloudWidget(url: string) {
   const { activeId, requestPlay } = usePlayback()
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const widgetRef = useRef<any>(null)
+  // Mirrors `volume` so the async widget-setup closure below never applies a
+  // stale value (the stored volume loads after mount, before the widget exists).
+  const volumeRef = useRef(volume)
   const [ready, setReady] = useState(false)
   const [playing, setPlaying] = useState(false)
   const [progress, setProgress] = useState(0) // 0..1
@@ -36,7 +39,7 @@ function useSoundCloudWidget(url: string) {
       widget.bind(SC.Widget.Events.READY, () => {
         if (cancelled) return
         setReady(true)
-        widget.setVolume(volume)
+        widget.setVolume(volumeRef.current)
         widget.getDuration((d: number) => !cancelled && setDuration(d))
         widget.getCurrentSound((currentSound: any) => {
           if (cancelled || !currentSound) return
@@ -49,7 +52,13 @@ function useSoundCloudWidget(url: string) {
         })
       })
 
-      widget.bind(SC.Widget.Events.PLAY, () => !cancelled && setPlaying(true))
+      widget.bind(SC.Widget.Events.PLAY, () => {
+        if (cancelled) return
+        setPlaying(true)
+        // The widget resets to full volume when playback starts, so any
+        // setVolume issued before the first PLAY gets discarded — re-apply.
+        widget.setVolume(volumeRef.current)
+      })
       widget.bind(SC.Widget.Events.PAUSE, () => !cancelled && setPlaying(false))
       widget.bind(SC.Widget.Events.FINISH, () => !cancelled && setPlaying(false))
       widget.bind(SC.Widget.Events.PLAY_PROGRESS, (e: { currentPosition: number }) => {
@@ -68,6 +77,7 @@ function useSoundCloudWidget(url: string) {
   }, [url])
 
   useEffect(() => {
+    volumeRef.current = volume
     widgetRef.current?.setVolume(volume)
   }, [volume])
 
@@ -206,6 +216,9 @@ function usePlaylistWidget(url: string) {
   const { activeId, requestPlay } = usePlayback()
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const widgetRef = useRef<any>(null)
+  // Mirrors `volume` so the async widget-setup closure below never applies a
+  // stale value (the stored volume loads after mount, before the widget exists).
+  const volumeRef = useRef(volume)
   const [sounds, setSounds] = useState<PlaylistSound[]>([])
   const [currentIndex, setCurrentIndex] = useState<number | null>(null)
   const [playing, setPlaying] = useState(false)
@@ -224,7 +237,7 @@ function usePlaylistWidget(url: string) {
 
       widget.bind(SC.Widget.Events.READY, () => {
         if (cancelled) return
-        widget.setVolume(volume)
+        widget.setVolume(volumeRef.current)
         widget.getSounds((rawSounds: any[]) => {
           if (cancelled) return
           setSounds(
@@ -243,6 +256,9 @@ function usePlaylistWidget(url: string) {
       widget.bind(SC.Widget.Events.PLAY, () => {
         if (cancelled) return
         setPlaying(true)
+        // The widget resets to full volume when playback starts, so any
+        // setVolume issued before the first PLAY gets discarded — re-apply.
+        widget.setVolume(volumeRef.current)
         widget.getCurrentSoundIndex((i: number) => !cancelled && setCurrentIndex(i))
         widget.getDuration((d: number) => !cancelled && setDuration(d))
       })
@@ -264,6 +280,7 @@ function usePlaylistWidget(url: string) {
   }, [url])
 
   useEffect(() => {
+    volumeRef.current = volume
     widgetRef.current?.setVolume(volume)
   }, [volume])
 
