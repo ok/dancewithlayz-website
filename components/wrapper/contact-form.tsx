@@ -5,8 +5,6 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { toast } from "sonner"
-import { GeistMono } from "geist/font/mono"
-import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import {
@@ -84,7 +82,7 @@ export function ContactForm() {
         name="contact"
         data-netlify="true"
         data-netlify-honeypot="bot-field"
-        className={`${GeistMono.className} max-w-xl space-y-5`}
+        className="contact-form max-w-xl space-y-5"
       >
         <input type="hidden" name="form-name" value="contact" />
         <div className="hidden" aria-hidden="true">
@@ -104,7 +102,7 @@ export function ContactForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[0.65rem] uppercase tracking-[0.14em] text-white/70">
+              <FormLabel className="mono">
                 Name
               </FormLabel>
               <FormControl>
@@ -119,7 +117,7 @@ export function ContactForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[0.65rem] uppercase tracking-[0.14em] text-white/70">
+              <FormLabel className="mono">
                 Email
               </FormLabel>
               <FormControl>
@@ -134,7 +132,7 @@ export function ContactForm() {
           name="message"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-[0.65rem] uppercase tracking-[0.14em] text-white/70">
+              <FormLabel className="mono">
                 Message
               </FormLabel>
               <FormControl>
@@ -148,13 +146,9 @@ export function ContactForm() {
             </FormItem>
           )}
         />
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-          className="bg-[hsl(var(--acid))] text-background hover:bg-[hsl(var(--acid-dim))] uppercase tracking-[0.14em] text-xs"
-        >
+        <button type="submit" disabled={isSubmitting} className="btn-play" style={{ padding: "14px 26px" }}>
           {isSubmitting ? "Sending..." : "Send message"}
-        </Button>
+        </button>
       </form>
     </Form>
   )
