@@ -1,24 +1,56 @@
 "use client"
 /* eslint-disable @next/next/no-img-element -- artwork comes from SoundCloud / YouTube at runtime */
 
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { formatTime } from "@/lib/media/catalog"
+import type { MediaEngine } from "@/lib/media/engine"
 import { useCinema, useMedia } from "./media-provider"
 import { NextIcon, PauseIcon, PlayIcon, PrevIcon, SpinnerIcon, VolumeIcon } from "./icons"
+
+/**
+ * Seek slider with timecodes. While dragging it only moves the thumb; the jump happens
+ * on release via the native `change` event, which fires for mouse, keyboard and touch
+ * alike (pointer/touch-end events are unreliable on mobile range inputs).
+ */
+function SeekBar({ engine, position, duration, className }: { engine: MediaEngine | null; position: number; duration: number; className: string }) {
+  const [scrub, setScrub] = useState<number | null>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    const el = inputRef.current
+    if (!el) return
+    const commit = () => { engine?.seek(+el.value / 1000); setScrub(null) }
+    el.addEventListener("change", commit)
+    return () => el.removeEventListener("change", commit)
+  }, [engine])
+
+  const progress = duration ? position / duration : 0
+  const shown = scrub ?? Math.round(progress * 1000)
+  return (
+    <div className={`${className} mono`}>
+      <span>{formatTime(scrub !== null ? (scrub / 1000) * duration : position)}</span>
+      <input
+        ref={inputRef}
+        type="range" min={0} max={1000} step={1} value={shown} aria-label="Seek"
+        disabled={!duration}
+        style={{ ["--p" as string]: `${shown / 10}%` }}
+        onChange={(e) => setScrub(+e.target.value)}
+      />
+      <span>{formatTime(duration)}</span>
+    </div>
+  )
+}
 
 /** The one place to play, pause, skip, seek and set the volume — for songs and videos alike. */
 export function PlayerBar() {
   const { engine, state, current } = useMedia()
   const cinema = useCinema()
-  const [scrub, setScrub] = useState<number | null>(null)
-
-  const progress = state.duration ? state.position / state.duration : 0
-  const shown = scrub ?? Math.round(progress * 1000)
   const isVideo = current?.kind === "video"
 
   return (
     <div className="player" aria-label="Player" role="region">
-      <div className="mini-progress" style={{ ["--p" as string]: `${progress * 100}%` }} />
+      {/* Phones: full-width, finger-sized seek row across the top of the bar. */}
+      <SeekBar className="mseek" engine={engine} position={state.position} duration={state.duration} />
       <div className="np">
         <div className="art">{current && <img src={current.art} alt="" />}</div>
         <div className="meta">
@@ -45,17 +77,7 @@ export function PlayerBar() {
           </button>
           <button className="side" onClick={() => engine?.next()} aria-label="Next"><NextIcon /></button>
         </div>
-        <div className="bar mono">
-          <span>{formatTime(scrub !== null ? (scrub / 1000) * state.duration : state.position)}</span>
-          <input
-            type="range" min={0} max={1000} value={shown} aria-label="Seek"
-            style={{ ["--p" as string]: `${shown / 10}%` }}
-            onChange={(e) => setScrub(+e.target.value)}
-            onPointerUp={() => { if (scrub !== null) { engine?.seek(scrub / 1000); setScrub(null) } }}
-            onKeyUp={() => { if (scrub !== null) { engine?.seek(scrub / 1000); setScrub(null) } }}
-          />
-          <span>{formatTime(state.duration)}</span>
-        </div>
+        <SeekBar className="bar" engine={engine} position={state.position} duration={state.duration} />
       </div>
 
       <div className="vol">
