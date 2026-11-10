@@ -17,9 +17,14 @@ export const metadata: Metadata = {
     template: `%s | Dance with Lay&apos;z`
   },
   description: 'Producer and DJ making House, Dance, and EDM.',
+  // Link previews (WhatsApp, iMessage, Facebook, X, ...). JPG rather than WebP: several apps
+  // won't render WebP previews. A new file name also makes the platforms fetch it fresh.
   openGraph: {
+    type: 'website',
+    siteName: 'Dance with Lay\'z',
+    title: 'Dance with Lay\'z',
     description: 'Producer and DJ making House, Dance, and EDM.',
-    images: [{ url: '/banner-layz.webp', width: 1200, height: 628 }],
+    images: [{ url: '/og-layz.jpg', width: 1200, height: 630, alt: 'LAY\'Z — House, Dance, EDM. Lay\'z lit by red, green and blue festival lights' }],
     url: 'https://dancewithlayz.com'
   },
   twitter: {
@@ -29,7 +34,7 @@ export const metadata: Metadata = {
     siteId: "",
     creator: "@dancewithlayz",
     creatorId: "",
-    images: [{ url: '/banner-layz.webp', width: 1200, height: 628 }],
+    images: [{ url: '/og-layz.jpg', width: 1200, height: 630, alt: 'LAY\'Z — House, Dance, EDM. Lay\'z lit by red, green and blue festival lights' }],
   },
 }
 
